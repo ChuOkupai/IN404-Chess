@@ -3,7 +3,7 @@ all: jar run
 build: src/*.java
 	javac $^ -d bin
 	
-jar: build
+Echec.jar: build
 	jar cfe Echec.jar . ./bin/Echec.class
 
 run: jar
