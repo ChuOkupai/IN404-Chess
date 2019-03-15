@@ -1,4 +1,4 @@
-all: jar run
+all: Echec.jar run
 
 build: src/*.java
 	mkdir -p bin
