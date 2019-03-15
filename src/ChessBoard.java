@@ -18,7 +18,10 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Renvoie vrai la case est vide
+	 * Détection d'une case vide
+	 * @param x coordonnée horizontale
+	 * @param y coordonnée verticale
+	 * @return vrai si la case est vide
 	 */
 	public boolean	isEmpty(int x, int y)
 	{
@@ -26,7 +29,8 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Renvoie vrai en cas de situation d'échec
+	 * Vérifie les situations d'échecs
+	 * @return vrai si il y a une situation d'échec
 	 */
 	public boolean	isCheck()
 	{
@@ -34,7 +38,8 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Renvoie vrai en cas de situation d'échec et mat
+	 * Vérifie les situations d'échecs et mat
+	 * @return vrai si il y a une situation d'échec et mat
 	 */
 	public boolean	isCheckmate()
 	{
