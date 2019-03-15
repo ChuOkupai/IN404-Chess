@@ -1,8 +1,8 @@
 /**
  * Classe Abstraite des différentes pièces
  *
- * @author Mathis Dankou
- * @version 15/03/2019
+ * @author	Mathis Dankou
+ * @version	15/03/2019
  */
 
 public abstract class Piece
@@ -11,7 +11,7 @@ public abstract class Piece
 	
 	/**
 	 * Cette méthode retourne la couleur de la piece
-	 * @return	int la couleur de la piece 
+	 * @return	this.color la couleur de la piece 
 	 */
 	public int getColor(){return this.color;}
 	
