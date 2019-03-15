@@ -1,11 +1,17 @@
-all: Echec.jar run
+all: doc Echec.jar run
+
+clean:
+	rm -rf doc src/*.class *.jar
+
+doc:
+	javadoc -charset UTF-8 -d doc src/*.java
 
 build: src/*.java
 	mkdir -p bin
 	javac $^ -d bin
 
-Echec.jar: build
-	jar cfe $@ . ./bin/Echec.class
+Chess.jar: doc build
+	jar cfe $@ . ./bin/Main.class $<
 
-run: Echec.jar
+run: Chess.jar
 	java -jar $<

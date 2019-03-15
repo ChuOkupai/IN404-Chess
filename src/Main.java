@@ -1,14 +1,15 @@
-/**
- * Main de l'application.
+/*
+ * Main de l'application
  *
  * @author	Adrien Soursou
  * @version	15/03/2019
  */
+
 enum Main
 {
 	ENVIRONNEMENT;
 	
-	/*
+	/**
 	 * Méthode principale du programme.
 	 * @param args les arguments de ligne de commande
 	 */
@@ -19,7 +20,7 @@ enum Main
 		board.render();
 	}
 	
-	/*
+	/**
 	 * Point d'entrée du programme.
 	 * @param args les arguments de ligne de commande
 	 */
