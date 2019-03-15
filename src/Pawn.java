@@ -8,8 +8,12 @@
 public class Pawn extends Piece
 {
 	/**
-	 * Cette méthode permet à la piece de se déplacer
-	 * (que j' @Override)
+	 * Cette méthode permet à la piece de se déplacer (que j' @Override)
+	 * @param	x1 la position x de départ de la pièce
+	 * @param	y1 la position y de départ de la pièce
+	 * @param	x2 la position x de d'arrivé de la pièce
+	 * @param	y2 la position y de d'arrivé de la pièce
+	 * @return	un boolean indiquant si le mouvement est possible ou non
 	 */
 	@Override
 	public boolean movePossible(int x1, int y1, int x2, int y2)
