@@ -1,5 +1,5 @@
 /**
- * Décrivez votre classe Client ici.
+ * Classe Abstraite des différentes pièces
  *
  * @author Mathis Dankou
  * @version 15/03/2019
