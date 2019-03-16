@@ -7,7 +7,7 @@
 - Soursou Adrien
 ## Objectifs
 - [ ] Base du projet
-	- jeu d'échec fonctionnelle avec une interface textuelle 
+	- jeu d'échec fonctionnel avec une interface textuelle 
 - [ ] Détection des situations d'échec et d'échec et mat
 - [ ] Promotion des pions
 - [ ] Commande Undo
