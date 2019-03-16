@@ -35,7 +35,7 @@ ou
 	Par exemple la commande "b5d7" déplace la pièce de b5 vers d7 si le déplacement est jugé valide 
 
 ## Manuel Technique
-
+![diagramme de classe](Classes.png)
 ### Option :
 TO BE STARTED ...
 ## Difficulté(?)
