@@ -8,6 +8,18 @@
 public abstract class Piece
 {
 	private int color;
+	private String sprite;
+	private String spriteFill;
+	
+	/**
+	 * Constructeur de la classe abstraite piece
+	 */
+	public Piece(int color, String sprite, String spriteFill)
+	{
+		this.color = color;
+		this.sprite = sprite;
+		this.spriteFill = spriteFill;
+	}
 	
 	/**
 	 * Cette méthode retourne la couleur de la piece
@@ -16,7 +28,20 @@ public abstract class Piece
 	public int getColor(){return this.color;}
 	
 	/**
-	 * Cette méthode permet à la piece de se déplacer
+	 * Cette méthode retourne le sprite de la piece
+	 * @return	this.sprite le sprite de la piece
+	 */
+	public String getSprite(){return this.sprite;}
+	
+	/**
+	 * Cette méthode retourne le sprite en mode remplie de la piece
+	 * @return	this.spriteFill le sprite remplie de la piece
+	 */
+	public String getSpriteFill(){return this.spriteFill;}
+	
+	/**
+	 * Cette méthode indique si la piece peut se déplacer
+	 * @return	true ou false la booolean indiquant si le déplacment est possible
 	 */
 	public abstract boolean movePossible();
 	

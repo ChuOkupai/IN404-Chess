@@ -8,6 +8,14 @@
 public class Pawn extends Piece
 {
 	/**
+	 * Constructeur du pion
+	 */
+	public Piece(int color, String sprite, String spriteFill)
+	{
+		super(color, sprite, spriteFill);
+	}
+	
+	/**
 	 * Cette méthode permet à la piece de se déplacer (que j' @Override)
 	 * @param	x1 la position x de départ de la pièce
 	 * @param	y1 la position y de départ de la pièce
