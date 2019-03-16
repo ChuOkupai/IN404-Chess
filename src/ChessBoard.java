@@ -2,7 +2,7 @@
  * Classe représentant le plateau du jeu
  *
  * @author	Adrien Soursou
- * @version	15/03/2019
+ * @version	16/03/2019
  */
 
 public class ChessBoard
@@ -51,24 +51,22 @@ public class ChessBoard
 	 */
 	public void	render()
 	{
-		// Enlever bordures + ajout couleur plateau
-		System.out.println("   ┌───┬───┬───┬───┬───┬───┬───┬───┐");
-		System.out.println(" 8 │ ♜ │ ♞ │ ♝ │ ♛ │ ♚ │ ♝ │ ♞ │ ♜ │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 7 │ ♟ │ ♟ │ ♟ │ ♟ │ ♟ │ ♟ │ ♟ │ ♟ │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 6 │   │   │   │   │   │   │   │   │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 5 │   │   │   │   │   │   │   │   │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 4 │   │   │   │   │   │   │   │   │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 3 │   │   │   │   │   │   │   │   │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 2 │ ♙ │ ♙ │ ♙ │ ♙ │ ♙ │ ♙ │ ♙ │ ♙ │");
-		System.out.println("   ├───┼───┼───┼───┼───┼───┼───┼───┤");
-		System.out.println(" 1 │ ♖ │ ♘ │ ♗ │ ♕ │ ♔ │ ♗ │ ♘ │ ♖ │");
-		System.out.println("   └───┴───┴───┴───┴───┴───┴───┴───┘");
-		System.out.println("     A   B   C   D   E   F   G   H");
+		int color = 1, x, y;
+		
+		for (y = 8; y > 0; y--)
+		{
+			System.out.print(" " + y + " ");
+			for (x = 0; x < 8; x++)
+			{
+				System.out.print((color == 0) ? Color.BACKGROUND_BLACK : Color.BACKGROUND_WHITE);
+				System.out.print("   ");
+				color = 1 - color;
+			}
+			System.out.println(Color.RESET);
+			color = 1 - color;
+		}
+		// Sprites			♖ ♘ ♗ ♕ ♔ ♙
+		// Sprites (fill)	♜ ♞ ♝ ♛ ♚ ♟
+		System.out.println("    a  b  c  d  e  f  g  h");
 	}
 }
