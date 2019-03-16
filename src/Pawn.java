@@ -10,9 +10,9 @@ public class Pawn extends Piece
 	/**
 	 * Constructeur du pion
 	 */
-	public Piece(int color, String sprite, String spriteFill)
+	public Pawn(int color)
 	{
-		super(color, sprite, spriteFill);
+		super(color,"♙","♟");
 	}
 	
 	/**
@@ -29,14 +29,14 @@ public class Pawn extends Piece
 		int dx = x2-x1;
 		int dy = y2-y1;
 		
-		if(this.color == 0)
+		if(this.getColor() == 0)
 		{
 			
 		}
 		else
 		{
-			if(dx > 1 || dx < 0) return false
-			if(dy < 0) return false
+			if(dx > 1 || dx < 0) return false;
+			if(dy < 0) return false;
 			if(dx == 0)
 			{
 				if(y1 == 1)
@@ -46,6 +46,6 @@ public class Pawn extends Piece
 				}
 			}
 		}
-		
+		return false;
 	}
 }
