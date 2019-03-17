@@ -1,4 +1,4 @@
-/**
+/*
  * Classe Abstraite des différentes pièces
  *
  * @author	Mathis Dankou
@@ -43,6 +43,6 @@ public abstract class Piece
 	 * Cette méthode indique si la piece peut se déplacer
 	 * @return	true ou false la booolean indiquant si le déplacment est possible
 	 */
-	public abstract boolean movePossible(int x1, int y1, int x2, int y2);
+	public abstract boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2);
 	
 }

@@ -1,7 +1,7 @@
 all: doc Echec.jar run
 
 clean:
-	rm -rf doc src/*.class *.jar
+	rm -rf bin doc *.jar
 
 doc:
 	javadoc -charset UTF-8 -d doc src/*.java
@@ -15,3 +15,9 @@ Chess.jar: doc build
 
 run: Chess.jar
 	java -jar $<
+
+# Temporaire pour compiler rapidement
+debug: src/Main.java
+	mkdir -p bin
+	javac -sourcepath src -d bin $<
+	java -cp bin Main

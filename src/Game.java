@@ -11,8 +11,8 @@ public class Game
 	private int turn;
 	
 	/**
-     * Constructeur d'objets de classe Game
-     */
+	 * Constructeur d'objets de classe Game
+	 */
 	public Game()
 	{
 		this.chessb = new ChessBoard();
@@ -25,7 +25,7 @@ public class Game
 	public void run()
 	{
 		
-		while(/*Un des rois en situation d'échecs*/)
+		//while(/*Un des rois en situation d'échecs*/)
 		{
 			
 		}
