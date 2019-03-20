@@ -13,7 +13,6 @@ public class Pawn extends Piece
 	public Pawn(int color)
 	{
 		super(color,"♙","♟");
-		firstMoveDone = 0;
 	}
 	
 	/**
@@ -37,7 +36,7 @@ public class Pawn extends Piece
 		if(x1 == x2 && y1==y2) // au cas où
 			return false;
 		
-		if(this.color == 0){dx = -dx; dy = -dy;} //les noirs en haut
+		if(this.getColor() == 0){dx = -dx; dy = -dy;} //les noirs en haut
 		
 		if(dy < 0 ) return false; //pas de retour en arrière
 		if(dy > 2) return false; //ne peut pas aller au dela de dy = 2 
@@ -51,7 +50,9 @@ public class Pawn extends Piece
 		{
 			if(dx == -1 || dx == 1)
 			{
-				if(b.isEmpty(x2, y2) && b.getPiece(x2, y2).getColor() != this.getColor())
+				if(b.isEmpty(x2, y2))
+					return true;
+				if(!b.isEmpty(x2, y2) && b.getPiece(x2, y2).getColor() != this.getColor())
 					return true;
 			}
 		}
