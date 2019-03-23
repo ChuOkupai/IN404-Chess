@@ -44,7 +44,7 @@ public class ChessBoard
 	 * @param y coordonnée verticale
 	 * @return vrai si les coordonnées sont dans les limites du plateau
 	 */
-	private boolean isOnBoard(int x, int y)
+	public boolean isOnBoard(int x, int y)
 	{
 		return (x < 0 || x > 7 || y < 0 || y > 7) ? false : true;
 	}
