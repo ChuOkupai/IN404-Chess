@@ -30,8 +30,23 @@ public class ChessBoard
 			board[y1][x] = new Pawn(1);
 			board[y2][x] = new Pawn(0);
 		}
+		board[0][1] = new Knight(1);
+		board[0][6] = new Knight(1);
+		board[7][1] = new Knight(0);
+		board[7][6] = new Knight(0);
 		board[0][4] = new King(1);
 		board[7][4] = new King(0);
+	}
+	
+	/**
+	 * Vérification des coordonnées
+	 * @param x coordonnée horizontale
+	 * @param y coordonnée verticale
+	 * @return vrai si les coordonnées sont dans les limites du plateau
+	 */
+	private boolean isOnBoard(int x, int y)
+	{
+		return (x < 0 || x > 7 || y < 0 || y > 7) ? false : true;
 	}
 	
 	/**

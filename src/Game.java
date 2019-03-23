@@ -20,15 +20,6 @@ public class Game
 	}
 	
 	/**
-	 *Vérifie si une coordonnée est dans les limites du plateau
-	 */
-	private boolean isOnBoard()
-	{
-		if(/*Coor audelà des limites*/)return false;
-		return true;
-	}
-	
-	/**
 	 *Interprète les commande envoyé par un des joueurs  
 	 **/
 	private void parseCom(String )

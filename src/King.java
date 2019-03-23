@@ -27,10 +27,8 @@ public class King extends Piece
 	@Override
 	public boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2)
 	{
-		if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0)
-			return false; // coordonnées négatives
-		else if (x1 > 7 || x2 > 7 || y1 > 7 || y2 > 7)
-			return false; // coordonnées impossibles
+		if (b.isOnBoard(x1, y1) == false || b.isOnBoard(x2, y2) == false)
+			return false;
 		else if (x1 == x2 && y1 == y2)
 			return false; // case de départ = case d'arrivé
 		
