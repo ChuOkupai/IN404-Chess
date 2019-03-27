@@ -26,26 +26,37 @@ public class Pawn extends Piece
 	@Override
 	public boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2)
 	{
-		int dx = x2-x1;
-		int dy = y2-y1;
+		int dx = x2 - x1; 
+		int dy = y2 - y1;
 		
-		if(this.getColor() == 0)
+		if(x1 < 0 || x1 > 7 || y1 < 0 || y1 > 7)//si l'utilisateur est un utilisateur ;))))))))))))
+			return false;
+		if(x2 < 0 || x2 > 7 || y2 < 0 || y2 > 7) //si c'est en dehors
+			return false;
+		if(x1 == x2 && y1==y2) // au cas où
+			return false;
+		
+		if(this.getColor() == 0){dx = -dx; dy = -dy;} //les noirs en haut
+		
+		if(dy < 0 ) return false; //pas de retour en arrière
+		if(dy > 2) return false; //ne peut pas aller au dela de dy = 2 
+		if(dy == 2)
 		{
-			
+			if(dx == 0 && (y1 ==  1 || y1 == 6)) //ou verif de la pos de base
+				if(b.isEmpty(x2, y2))
+					return true;
 		}
-		else
+		if(dy == 1)
 		{
-			if(dx > 1 || dx < 0) return false;
-			if(dy < 0) return false;
-			if(dx == 0)
+			if(dx == -1 || dx == 1)
 			{
-				if(y1 == 1)
-				{
-					if(dy > 2) return false;
-					//A compléter ;)
-				}
+				if(b.isEmpty(x2, y2))
+					return true;
+				if(!b.isEmpty(x2, y2) && b.getPiece(x2, y2).getColor() != this.getColor())
+					return true;
 			}
 		}
+		
 		return false;
 	}
 }

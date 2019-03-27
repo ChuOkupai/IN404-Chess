@@ -30,8 +30,23 @@ public class ChessBoard
 			board[y1][x] = new Pawn(1);
 			board[y2][x] = new Pawn(0);
 		}
+		board[0][1] = new Knight(1);
+		board[0][6] = new Knight(1);
+		board[7][1] = new Knight(0);
+		board[7][6] = new Knight(0);
 		board[0][4] = new King(1);
 		board[7][4] = new King(0);
+	}
+	
+	/**
+	 * Vérification des coordonnées
+	 * @param x coordonnée horizontale
+	 * @param y coordonnée verticale
+	 * @return vrai si les coordonnées sont dans les limites du plateau
+	 */
+	public boolean isOnBoard(int x, int y)
+	{
+		return (x < 0 || x > 7 || y < 0 || y > 7) ? false : true;
 	}
 	
 	/**
@@ -108,10 +123,5 @@ public class ChessBoard
 			color = 1 - color;
 		}
 		System.out.println(bbrown + "    a b c d e f g h   " + reset);
-		
-		// Test (Debug)
-		System.out.println("movePossible(King):");
-		System.out.println("BLACK_KING(e8->d8) = " + board[7][4].movePossible(this, 4, 7, 3, 7));
-		System.out.println("WHITE_KING(e1->e2) = " + board[0][4].movePossible(this, 4, 0, 4, 1));
 	}
 }
