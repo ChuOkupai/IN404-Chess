@@ -123,10 +123,5 @@ public class ChessBoard
 			color = 1 - color;
 		}
 		System.out.println(bbrown + "    a b c d e f g h   " + reset);
-		
-		// Test (Debug)
-		System.out.println("movePossible(King):");
-		System.out.println("BLACK_KING(e8->d8) = " + board[7][4].movePossible(this, 4, 7, 3, 7));
-		System.out.println("WHITE_KING(e1->e2) = " + board[0][4].movePossible(this, 4, 0, 4, 1));
 	}
 }
