@@ -6,7 +6,7 @@ import java.io.IOException;
  * Classe au coeur de la logique du jeu
  *
  * @author	Mathis Dankou, Adrien Soursou
- * @version	15/03/2019
+ * @version	27/03/2019
  */
 
 public class Game
@@ -32,11 +32,12 @@ public class Game
 	private int parseCom(String s)
 	{
 		if(s.length() > 4) return -1;
-		if(s.equals("exit") == 0) return 0;
-		if(/*Commande ok*/)
+		if(s.equals("exit") == true) return 0;
+		if(/*Commande ok*/false)
 		{
 			/*Run plateau*/
-		}
+		};
+		return 1;
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class Game
 		long	t0, t, dt;
 		String	buffer = "";
 		
-		while (turn <= 4) // debug test de 4 tours, à remplacer par les conditions d'échecs
+		while (turn <= 2) // debug test de 2 tours, à remplacer par les conditions d'échecs
 		{
 			t0 = System.currentTimeMillis();
 			dt = 0;
@@ -89,14 +90,19 @@ public class Game
 					}
 					System.out.println("  " + ((turn % 2 == 0) ? "Black" : "White") + "'s turn");
 					System.out.println("  Turn: " + turn);
-					System.out.println("  Time left: " + (max - t) + "s         ");
+					System.out.print("  Time left: ");
+					if (max - t < 6) // Couleur rouge si inférieur à 5s
+						System.out.print("\033[38;2;255;55;55m");
+					System.out.print((max - t) + "s         ");
+					if (max - t < 6)
+						System.out.print("\033[0m");
+					System.out.println();
 					if (t == 0)
 						System.out.print("\n  > ");
 					else
 						System.out.print("\033[u"); // restore la position du curseur
 					
-					// Préparation de la seconde suivante
-					t++;
+					t++; // Préparation de la seconde suivante
 				}
 				try
 				{
@@ -104,7 +110,7 @@ public class Game
 					{
 						buffer = reader.readLine();
 						// Check du buffer (pas encore implémenté)
-						//if (isValid(buffer) == true)
+						//if (parseCom(buffer) == ?)
 							dt = max; // break de la boucle intérieure
 					}
 					else

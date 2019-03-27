@@ -2,7 +2,7 @@
  * Classe représentant le plateau du jeu
  *
  * @author	Adrien Soursou
- * @version	17/03/2019
+ * @version	27/03/2019
  */
 
 public class ChessBoard
@@ -27,15 +27,26 @@ public class ChessBoard
 		board = new Piece[8][8];
 		for (x = 0, y1 = 1, y2 = 6; x < 8; x++)
 		{
-			board[y1][x] = new Pawn(1);
 			board[y2][x] = new Pawn(0);
+			board[y1][x] = new Pawn(1);
 		}
-		board[0][1] = new Knight(1);
-		board[0][6] = new Knight(1);
+		// y = ligne, x = colonne
 		board[7][1] = new Knight(0);
 		board[7][6] = new Knight(0);
-		board[0][4] = new King(1);
+		board[0][1] = new Knight(1);
+		board[0][6] = new Knight(1);
+		board[7][2] = new Bishop(0);
+		board[7][5] = new Bishop(0);
+		board[0][2] = new Bishop(1);
+		board[0][5] = new Bishop(1);
+		board[7][0] = new Rook(0);
+		board[7][7] = new Rook(0);
+		board[0][0] = new Rook(1);
+		board[0][7] = new Rook(1);
+		board[7][3] = new Queen(0);
+		board[0][3] = new Queen(1);
 		board[7][4] = new King(0);
+		board[0][4] = new King(1);
 	}
 	
 	/**
@@ -62,6 +73,8 @@ public class ChessBoard
 	
 	/**
 	 * Permet de récupérer une pièce sur le plateau
+	 * /!\ OBSOLETE /!\ Utiliser getPieceColor pour récupérer la couleur
+	 * (suppression d'ici les prochaines versions)
 	 * @param x coordonnée horizontale
 	 * @param y coordonnée verticale
 	 * @return la pièce si elle existe, null sinon
@@ -69,6 +82,36 @@ public class ChessBoard
 	public Piece	getPiece(int x, int y)
 	{
 		return board[y][x];
+	}
+	
+	/**
+	 * Permet de récupérer la couleur d'une pièce sur le plateau
+	 * @param x coordonnée horizontale
+	 * @param y coordonnée verticale
+	 * @return 0 si noir, 1 si blanc et -1 si la pièce n'existe pas
+	 */
+	public int	getPieceColor(int x, int y)
+	{
+		return (isEmpty(x, y) == true) ? -1 : board[y][x].getColor();
+	}
+	
+	/**
+	 * Cette méthode permet de tester un déplacement (debug)
+	 * @param	x1 la position x de départ de la pièce
+	 * @param	y1 la position y de départ de la pièce
+	 * @param	x2 la position x de d'arrivé de la pièce
+	 * @param	y2 la position y de d'arrivé de la pièce
+	 */
+	public void	checkMove(int x1, int y1, int x2, int y2)
+	{
+		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
+			System.out.println("error: invalid start coordinates");
+		else
+		{
+			System.out.print("Trying to move " + board[y1][x1].getName());
+			System.out.print(" from " + (char)(x1 + 97) + (y1 + 1) + " to " + (char)(x2 + 97) + (y2 + 1));
+			System.out.println(" > " + board[y1][x1].movePossible(this, x1, y1, x2, y2));
+		}
 	}
 	
 	/**

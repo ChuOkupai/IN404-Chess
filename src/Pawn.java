@@ -16,7 +16,8 @@ public class Pawn extends Piece
 	}
 	
 	/**
-	 * Cette méthode permet à la piece de se déplacer (que j' @Override)
+	 * Cette méthode permet à la pièce de se déplacer
+	 * @param	b le plateau de jeu
 	 * @param	x1 la position x de départ de la pièce
 	 * @param	y1 la position y de départ de la pièce
 	 * @param	x2 la position x de d'arrivé de la pièce

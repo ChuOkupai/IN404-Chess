@@ -2,7 +2,7 @@
  * Main de l'application
  *
  * @author	Adrien Soursou
- * @version	15/03/2019
+ * @version	27/03/2019
  */
 
 enum Main
@@ -19,6 +19,15 @@ enum Main
 		
 		game.run();
 	}
+	// A décommenter pour tester des déplacements (ne pas oublier de commenter l'autre fonction run)
+	/*public void run(String[] args)
+	{
+		ChessBoard board = new ChessBoard();
+		
+		board.render();
+		// Test de mouvements
+		board.checkMove(4, 7, 4, 6);
+	}*/
 	
 	/**
 	 * Point d'entrée du programme.

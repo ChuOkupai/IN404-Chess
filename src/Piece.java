@@ -8,6 +8,7 @@
 public abstract class Piece
 {
 	private int color;
+	private String name;
 	private String sprite;
 	private String spriteFill;
 	
@@ -17,6 +18,7 @@ public abstract class Piece
 	public Piece(int color, String sprite, String spriteFill)
 	{
 		this.color = color;
+		this.name = "_MYSTERIOUS_BAKED_POTATO";
 		this.sprite = sprite;
 		this.spriteFill = spriteFill;
 	}
@@ -31,18 +33,37 @@ public abstract class Piece
 	 * Cette méthode retourne le sprite de la piece
 	 * @return	this.sprite le sprite de la piece
 	 */
-	public String getSprite(){return this.sprite;}
+	public String getSprite()
+	{
+		return this.sprite;
+	}
 	
 	/**
 	 * Cette méthode retourne le sprite en mode remplie de la piece
 	 * @return	this.spriteFill le sprite remplie de la piece
 	 */
-	public String getSpriteFill(){return this.spriteFill;}
+	public String getSpriteFill()
+	{
+		return this.spriteFill;
+	}
 	
 	/**
-	 * Cette méthode indique si la piece peut se déplacer
-	 * @return	true ou false la booolean indiquant si le déplacment est possible
+	 * Obtenir le nom de la pièce
+	 * @return	le nom sous forme de String
+	 */
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	/**
+	 * Cette méthode permet à la pièce de se déplacer
+	 * @param	b le plateau de jeu
+	 * @param	x1 la position x de départ de la pièce
+	 * @param	y1 la position y de départ de la pièce
+	 * @param	x2 la position x de d'arrivé de la pièce
+	 * @param	y2 la position y de d'arrivé de la pièce
+	 * @return	un boolean indiquant si le mouvement est possible ou non
 	 */
 	public abstract boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2);
-	
 }

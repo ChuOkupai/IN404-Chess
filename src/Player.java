@@ -7,19 +7,20 @@
 
 public abstract class Player
 {
-	private int color;
+	private int bank, color;
 	
 	/**
 	 * Constructeur de la classe abstraite Player
 	 */
-	Player(int color)
+	Player(int bank, int color)
 	{
-		this.color = color;	
+		this.bank = bank;
+		this.color = color;
 	}
 
 	/**
 	 * Cette méthode retourne la couleur du joueur
-	 * @returnla 0 si noir, 1 si blanc
+	 * @return 0 si noir, 1 si blanc
 	 */
 	public int getColor()
 	{

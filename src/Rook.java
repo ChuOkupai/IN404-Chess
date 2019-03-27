@@ -1,5 +1,5 @@
-/**
- * Classe de la tour(Exemple)
+/*
+ * Classe de la tour
  *
  * @author	Franck Naze
  * @version	16/03/2019
@@ -8,29 +8,25 @@
 public class Rook extends Piece
 {
 	/**
-	 * Cette méthode permet à la piece de se déplacer (que j' @Override)
+	 * Constructeur de la tour
+	 */
+	public	Rook(int color)
+	{
+		// Affectation des sprites
+		super(color,"♖","♜");
+	}
+	
+	/**
+	 * Cette méthode permet à la pièce de se déplacer
+	 * @param	b le plateau de jeu
 	 * @param	x1 la position x de départ de la pièce
 	 * @param	y1 la position y de départ de la pièce
 	 * @param	x2 la position x de d'arrivé de la pièce
 	 * @param	y2 la position y de d'arrivé de la pièce
 	 * @return	un boolean indiquant si le mouvement est possible ou non
 	 */
-	 
-		public Rook(int color)
-	{
-		// Affectation des sprites
-		super(color,"♖","♜");
-	}
-	/**
-	 * Cette méthode permet à la piece de se déplacer (que j' @Override)
-	 * @param	x1 la position x de départ de la pièce
-	 * @param	y1 la position y de départ de la pièce
-	 * @param	x2 la position x de d'arrivé de la pièce
-	 * @param	y2 la position y de d'arrivé de la pièce
-	 * @return	un boolean indiquant si le mouvement est possible ou non
-	 */ 
-	 @Override
-	public boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2)
+	@Override
+	public boolean	movePossible(ChessBoard b, int x1, int y1, int x2, int y2)
 	{
 		int dx;
 		int dy;
@@ -104,5 +100,4 @@ public class Rook extends Piece
 		
 		return false;
 	}
-	
-}	
+}

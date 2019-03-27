@@ -23,4 +23,4 @@ run: Chess.jar
 debug: src/Main.java
 	mkdir -p bin
 	javac -sourcepath src -d bin $<
-	clear; java -cp bin Main; clear
+	java -cp bin Main

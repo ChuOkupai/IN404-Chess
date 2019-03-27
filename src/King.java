@@ -2,13 +2,13 @@
  * Classe du Roi
  *
  * @author	Adrien Soursou
- * @version	17/03/2019
+ * @version	27/03/2019
  */
 
 public class King extends Piece
 {
 	/**
-	 * Constructeur du Roi
+	 * Constructeur du roi
 	 */
 	public King(int color)
 	{
@@ -18,6 +18,7 @@ public class King extends Piece
 	
 	/**
 	 * Cette méthode permet à la pièce de se déplacer
+	 * @param	b le plateau de jeu
 	 * @param	x1 la position x de départ de la pièce
 	 * @param	y1 la position y de départ de la pièce
 	 * @param	x2 la position x de d'arrivé de la pièce
@@ -30,7 +31,7 @@ public class King extends Piece
 		// Propriétés du Roi
 		if (Math.abs(x2 - x1) > 1 || Math.abs(y2 - y1) > 1)
 			return false; // déplacement supérieur à une case
-		else if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor())
+		else if (b.getPieceColor(x2, y2) == this.getColor())
 			return false; // case non vide et même couleur
 		return true; // case vide ou couleur différente
 	}
