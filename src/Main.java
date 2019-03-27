@@ -15,9 +15,9 @@ enum Main
 	 */
 	public void run(String[] args)
 	{
-		ChessBoard board = new ChessBoard();
+		Game game = new Game();
 		
-		board.render();
+		game.run();
 	}
 	
 	/**

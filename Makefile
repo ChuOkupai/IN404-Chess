@@ -1,4 +1,7 @@
-all: doc Echec.jar run
+# Temporaire pour remplacer la cible all
+all-debug: debug
+
+all: doc Chess.jar run
 
 clean:
 	rm -rf bin doc *.jar
@@ -20,4 +23,4 @@ run: Chess.jar
 debug: src/Main.java
 	mkdir -p bin
 	javac -sourcepath src -d bin $<
-	java -cp bin Main
+	clear; java -cp bin Main; clear
