@@ -27,11 +27,16 @@ public class Game
 	}
 	
 	/**
-	 * Interprète les commande envoyé par un des joueurs  
+	 * Interprète les commandes envoyées par un des joueurs  
 	 **/
-	private void parseCom(String s)
+	private int parseCom(String s)
 	{
-		
+		if(s.length() > 4) return -1;
+		if(s.equals("exit") == 0) return 0;
+		if(/*Commande ok*/)
+		{
+			/*Run plateau*/
+		}
 	}
 	
 	/**
