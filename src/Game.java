@@ -35,8 +35,9 @@ public class Game
 	}
 	
 	/**
-	 * Temporaire pour récupérer des coordonnées aléatoires pour l'affichage
-	 * (en attendant l'IA)
+	 * Cette méthode permet de récupérer des coordonnées aléatoires
+	 * 
+	 * @return la chaîne de charactères contenant le déplacement
 	 */
 	private String getRandomCoor()
 	{
