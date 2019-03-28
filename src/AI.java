@@ -5,7 +5,7 @@
  * @version	27/03/2019
  */
 
-public class IA extends Player
+public class AI extends Player
 {
 	
 }

@@ -30,10 +30,6 @@ public class Knight extends Piece
 		int dx = Math.abs(x2 - x1);
 		int dy = Math.abs(y2 - y1);
 		
-		if(x1 < 0 || x1 > 7 || y1 < 0 || y1 > 7)//si l'utilisateur est un utilisateur ;))))))))))))
-			return false;
-		if(x2 < 0 || x2 > 7 || y2 < 0 || y2 > 7) //si c'est en dehors
-			return false;
 		if(x1 == x2 && y1==y2) // au cas où
 			return false;
 		
@@ -47,5 +43,4 @@ public class Knight extends Piece
 		}
 		return false;
 	}
-	
 }
