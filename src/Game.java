@@ -17,6 +17,8 @@ public class Game
 	
 	/**
 	 * Constructeur d'objets de classe Game
+	 * @param maxSeconds le nombre maximum de secondes par tour, infini si <= 0
+	 * @param maxTurns le nombre maximum de tours, infini si <= 0
 	 */
 	public Game(int maxSeconds, int maxTurns)
 	{
@@ -28,7 +30,9 @@ public class Game
 	}
 	
 	/**
-	 * Interprète les commandes envoyées par un des joueurs  
+	 * Interprète les commandes envoyées par un des joueurs
+	 * @param s l'instruction venant du joueur
+	 * @return int -1 si invalide, 0 si "exit", 1 si instruction de jeu
 	 **/
 	private int parseCom(String s)
 	{
@@ -41,7 +45,6 @@ public class Game
 		y1 = s.charAt(1) - '0' - 1;
 		x2 = s.charAt(2) - 'a';
 		y2 = s.charAt(3) - '0' - 1;
-		System.out.println(x1 + "" + y1 + "" + x2 + "" + y2 + "\n");
 		return (chessb.doMove(x1,y1,x2,y2) == false) ? -1 : 1;
 	}
 	
@@ -64,7 +67,7 @@ public class Game
 		y2 += 49;
 		return (String)("" + x1 + y1 + x2 + y2);
 	}
-	 
+	
 	/**
 	 * S'occupe de la logique de jeu
 	 * Bug connu: si l'utilisateur dépasse la ligne en écrivant sur le buffer, l'affichage ne fonctionne plus correctement
@@ -75,7 +78,7 @@ public class Game
 		int		ret;
 		String	buffer = "";
 		
-		while (turn <= maxTurns) // debug test de 2 tours, à remplacer par les conditions d'échecs
+		while (maxTurns == 0 || turn <= maxTurns)
 		{
 			t0 = System.currentTimeMillis();
 			dt = 0;
@@ -87,7 +90,7 @@ public class Game
 				System.out.println(" Input format: [a-h][1-8][a-h][1-8] (ex " + this.getRandomCoor() + ")\n");
 			do // Met à jour le rendu et l'entrée utilisateur une fois par seconde
 			{
-				if (t == dt)
+				if (t == dt || (t == dt && t == 0 && maxSeconds == 0))
 				{
 					if (t > 0)
 					{
@@ -97,16 +100,20 @@ public class Game
 					System.out.println("  " + ((turn % 2 == 0) ? "Black" : "White") + "'s turn");
 					System.out.println("  Turn: " + turn);
 					System.out.print("  Time left: ");
-					if (maxSeconds > 0 && maxSeconds - t < 6) // Couleur rouge si inférieur à 5s
-						System.out.print("\033[38;2;255;55;55m");
-					System.out.print(((maxSeconds == 0) ? "unlimited" : (maxSeconds - t) + "s") + "         ");
-					if (maxSeconds > 0 && maxSeconds - t < 6)
-						System.out.print("\033[0m");
-					System.out.println();
-					if (t == 0)
-						System.out.print("\n  > ");
+					if (maxSeconds == 0)
+						System.out.print("\033[38;2;55;255;55munlimited\033[0m");
 					else
-						System.out.print("\033[u"); // restore la position du curseur
+					{
+						if (maxSeconds - t < 6) // Couleur rouge si inférieur à 5s
+							System.out.print("\033[38;2;255;55;55m");
+						System.out.print((maxSeconds - t) + "s         "); 
+						if (maxSeconds - t < 6)
+							System.out.print("\033[0m");
+					}
+					if (t == 0)
+						System.out.print("\n\n  > ");
+					else
+						System.out.print("\033[u"); // restaure la position du curseur
 					t++; // Préparation de la seconde suivante
 				}
 				try
@@ -114,15 +121,11 @@ public class Game
 					if (reader.ready() == true) // si le fichier est à lire
 					{
 						buffer = reader.readLine();
-						// Check du buffer (pas encore implémenté)
 						ret = parseCom(buffer);
 						if (ret == 0)
-						{
-							turn = maxTurns + 1;
-							break;
-						}
+							return;
 						else if (ret == 1)
-							dt = maxSeconds;
+							break;
 						else
 							System.out.print("\033[1A\033[K  > ");
 					}
