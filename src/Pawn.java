@@ -45,10 +45,13 @@ public class Pawn extends Piece
 		}
 		if(dy == 1)
 		{
-			if(dx == -1 || dx == 1)
+			if(dx == 0)
 			{
 				if(b.isEmpty(x2, y2))
 					return true;
+			}
+			else
+			{
 				if(!b.isEmpty(x2, y2) && b.getPiece(x2, y2).getColor() != this.getColor())
 					return true;
 			}
