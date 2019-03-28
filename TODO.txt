@@ -7,7 +7,6 @@ CHANGELOG:
 - Indentation des fichiers
 
 TODO:
-- Ajouter la varibale name au constructeur de la classe abstraite Piece et aux classes qui en héritent
 - Ajouter des coordonnées dans chaques pièces (pour simplifier le code)
 - Tester les mouvements (vous pouvez enlever des pièces initialisées dans le constructeur de la classe ChessBoard)
 - Finir la méthode parseCom de Game.java
