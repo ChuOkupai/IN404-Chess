@@ -26,6 +26,7 @@ enum Main
 		
 		board.render();
 		// Test de mouvements
+		System.out.print("King: ");
 		board.checkMove(4, 7, 4, 6);
 	}*/
 	

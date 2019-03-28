@@ -8,7 +8,6 @@
 public abstract class Piece
 {
 	private int color;
-	private String name;
 	private String sprite;
 	private String spriteFill;
 	
@@ -18,7 +17,6 @@ public abstract class Piece
 	public Piece(int color, String sprite, String spriteFill)
 	{
 		this.color = color;
-		this.name = "_MYSTERIOUS_BAKED_POTATO";
 		this.sprite = sprite;
 		this.spriteFill = spriteFill;
 	}
@@ -45,15 +43,6 @@ public abstract class Piece
 	public String getSpriteFill()
 	{
 		return this.spriteFill;
-	}
-	
-	/**
-	 * Obtenir le nom de la pièce
-	 * @return	le nom sous forme de String
-	 */
-	public String getName()
-	{
-		return this.name;
 	}
 	
 	/**

@@ -108,8 +108,8 @@ public class ChessBoard
 			System.out.println("error: invalid start coordinates");
 		else
 		{
-			System.out.print("Trying to move " + board[y1][x1].getName());
-			System.out.print(" from " + (char)(x1 + 97) + (y1 + 1) + " to " + (char)(x2 + 97) + (y2 + 1));
+			System.out.print("Trying to move Piece from ");
+			System.out.print((char)(x1 + 97) + (y1 + 1) + " to " + (char)(x2 + 97) + (y2 + 1));
 			System.out.println(" > " + board[y1][x1].movePossible(this, x1, y1, x2, y2));
 		}
 	}
