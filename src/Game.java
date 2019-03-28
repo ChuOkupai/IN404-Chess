@@ -28,7 +28,9 @@ public class Game
 	}
 	
 	/**
-	 * Interprète les commandes envoyées par un des joueurs  
+	 * Interprète les commandes envoyées par un des joueurs
+	 * @param s l'instruction venant du joueur
+	 * @return int -1 si invalide, 0 si "exit", 1 si instruction de jeu
 	 **/
 	private int parseCom(String s)
 	{
