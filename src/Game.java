@@ -31,13 +31,23 @@ public class Game
 	 **/
 	private int parseCom(String s)
 	{
+		int i = 0;
+		int x1,x2,y1,y2;
+		
 		if(s.length() > 4) return -1;
 		if(s.equals("exit") == true) return 0;
-		if(/*Commande ok*/false)
-		{
-			/*Run plateau*/
-		};
+	
+		x1 = s.charAt(0) - 'a';
+		y1 = s.charAt(1) - '0';
+		x2 = s.charAt(2) - 'a';
+		y2 = s.charAt(3) - '0';
+		
+		if(x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7) return -1;
+		if(y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) return -1;
+		
+		//Appelle de moviePiece dans ChessBoard
 		return 1;
+		
 	}
 	
 	/**
