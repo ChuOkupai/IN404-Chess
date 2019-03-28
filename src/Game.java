@@ -41,11 +41,9 @@ public class Game
 		y1 = s.charAt(1) - '0';
 		x2 = s.charAt(2) - 'a';
 		y2 = s.charAt(3) - '0';
+		boolean ret = chessb.doMove(x1,y1,x2,y2);
 		
-		if(x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7) return -1;
-		if(y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) return -1;
-		
-		//Appelle de moviePiece dans ChessBoard
+		if(ret != true) return -1;
 		return 1;
 		
 	}

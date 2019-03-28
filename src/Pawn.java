@@ -30,16 +30,12 @@ public class Pawn extends Piece
 		int dx = x2 - x1; 
 		int dy = y2 - y1;
 		
-		if(x1 < 0 || x1 > 7 || y1 < 0 || y1 > 7)//si l'utilisateur est un utilisateur ;))))))))))))
-			return false;
-		if(x2 < 0 || x2 > 7 || y2 < 0 || y2 > 7) //si c'est en dehors
-			return false;
 		if(x1 == x2 && y1==y2) // au cas où
 			return false;
 		
 		if(this.getColor() == 0){dx = -dx; dy = -dy;} //les noirs en haut
 		
-		if(dy < 0 ) return false; //pas de retour en arrière
+		if(dy < 0) return false; //pas de retour en arrière
 		if(dy > 2) return false; //ne peut pas aller au dela de dy = 2 
 		if(dy == 2)
 		{
