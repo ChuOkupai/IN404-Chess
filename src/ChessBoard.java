@@ -109,7 +109,7 @@ public class ChessBoard
 		else
 		{
 			System.out.print("Trying to move Piece from ");
-			System.out.print((char)(x1 + 97) + (y1 + 1) + " to " + (char)(x2 + 97) + (y2 + 1));
+			System.out.print((char)(x1 + 97) + "" + (y1 + 1) + " to " + (char)(x2 + 97) + "" + (y2 + 1));
 			System.out.println(" > " + board[y1][x1].movePossible(this, x1, y1, x2, y2));
 		}
 	}
