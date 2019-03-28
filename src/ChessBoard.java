@@ -129,6 +129,7 @@ public class ChessBoard
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
 		board[y2][x2] = board[y1][x1];
+		board[y1][x1] = null;
 		return true;	
 	}
 

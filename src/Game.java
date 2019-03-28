@@ -13,17 +13,18 @@ public class Game
 {
 	private BufferedReader reader;
 	private ChessBoard chessb;
-	private int turn, max;
+	private int turn, maxSeconds, maxTurns;
 	
 	/**
 	 * Constructeur d'objets de classe Game
 	 */
-	public Game()
+	public Game(int maxSeconds, int maxTurns)
 	{
 		this.chessb = new ChessBoard();
 		this.reader = new BufferedReader(new InputStreamReader(System.in), 4);
 		this.turn = 1;
-		this.max = 30;
+		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
+		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
 	}
 	
 	/**
@@ -31,21 +32,17 @@ public class Game
 	 **/
 	private int parseCom(String s)
 	{
-		int i = 0;
 		int x1,x2,y1,y2;
 		
-		if(s.length() > 4) return -1;
+		if(s.length() != 4) return -1;
 		if(s.equals("exit") == true) return 0;
 	
 		x1 = s.charAt(0) - 'a';
-		y1 = s.charAt(1) - '0';
+		y1 = s.charAt(1) - '0' - 1;
 		x2 = s.charAt(2) - 'a';
-		y2 = s.charAt(3) - '0';
-		boolean ret = chessb.doMove(x1,y1,x2,y2);
-		
-		if(ret != true) return -1;
-		return 1;
-		
+		y2 = s.charAt(3) - '0' - 1;
+		System.out.println(x1 + "" + y1 + "" + x2 + "" + y2 + "\n");
+		return (chessb.doMove(x1,y1,x2,y2) == false) ? -1 : 1;
 	}
 	
 	/**
@@ -75,9 +72,10 @@ public class Game
 	public void run()
 	{
 		long	t0, t, dt;
+		int		ret;
 		String	buffer = "";
 		
-		while (turn <= 2) // debug test de 2 tours, à remplacer par les conditions d'échecs
+		while (turn <= maxTurns) // debug test de 2 tours, à remplacer par les conditions d'échecs
 		{
 			t0 = System.currentTimeMillis();
 			dt = 0;
@@ -99,17 +97,16 @@ public class Game
 					System.out.println("  " + ((turn % 2 == 0) ? "Black" : "White") + "'s turn");
 					System.out.println("  Turn: " + turn);
 					System.out.print("  Time left: ");
-					if (max - t < 6) // Couleur rouge si inférieur à 5s
+					if (maxSeconds > 0 && maxSeconds - t < 6) // Couleur rouge si inférieur à 5s
 						System.out.print("\033[38;2;255;55;55m");
-					System.out.print((max - t) + "s         ");
-					if (max - t < 6)
+					System.out.print(((maxSeconds == 0) ? "unlimited" : (maxSeconds - t) + "s") + "         ");
+					if (maxSeconds > 0 && maxSeconds - t < 6)
 						System.out.print("\033[0m");
 					System.out.println();
 					if (t == 0)
 						System.out.print("\n  > ");
 					else
 						System.out.print("\033[u"); // restore la position du curseur
-					
 					t++; // Préparation de la seconde suivante
 				}
 				try
@@ -118,8 +115,16 @@ public class Game
 					{
 						buffer = reader.readLine();
 						// Check du buffer (pas encore implémenté)
-						//if (parseCom(buffer) == ?)
-							dt = max; // break de la boucle intérieure
+						ret = parseCom(buffer);
+						if (ret == 0)
+						{
+							turn = maxTurns + 1;
+							break;
+						}
+						else if (ret == 1)
+							dt = maxSeconds;
+						else
+							System.out.print("\033[1A\033[K  > ");
 					}
 					else
 						dt = (System.currentTimeMillis() - t0) / 1000;
@@ -128,7 +133,7 @@ public class Game
 				{
 					e.printStackTrace(); // gestion d'erreurs
 				}
-			}	while (dt < max);
+			}	while (maxSeconds == 0 || dt < maxSeconds);
 			turn++;
 		}
 	}
