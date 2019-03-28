@@ -105,7 +105,7 @@ public class ChessBoard
 	public void	checkMove(int x1, int y1, int x2, int y2)
 	{
 		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
-			System.out.println("error: invalid start coordinates");
+			System.out.println("error: invalid coordinates");
 		else
 		{
 			System.out.print("Trying to move Piece from ");
@@ -113,7 +113,25 @@ public class ChessBoard
 			System.out.println(" > " + board[y1][x1].movePossible(this, x1, y1, x2, y2));
 		}
 	}
-	
+
+	/**
+	 * Déplacement d'une pièce sur le plateau
+	 * @param	x1 la position x de départ de la pièce
+	 * @param	y1 la position y de départ de la pièce
+	 * @param	x2 la position x de d'arrivé de la pièce
+	 * @param	y2 la position y de d'arrivé de la pièce
+	 * @return	vrai si la pièce a été déplacée, faux sinon
+	 */
+	public boolean	doMove(int x1, int y1, int x2, int y2)
+	{
+		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
+			return false;
+		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
+			return false;
+		board[y2][x2] = board[y1][x1];
+		return true;	
+	}
+
 	/**
 	 * Vérifie les situations d'échecs
 	 * @return vrai si il y a une situation d'échec
