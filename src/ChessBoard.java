@@ -13,9 +13,9 @@ public class ChessBoard
 	private static final String reset = "\033[0m"; // Reset text color
 	private static final String bbrown = "\033[48;2;135;84;45m"; // Brown background
 	private static final String bblack = "\033[48;2;0;0;0m"; // Black background
-	private static final String bwhite = "\033[48;2;190;190;190m"; // White background
+	private static final String bwhite = "\033[48;2;200;200;200m"; // White background
 	private static final String fblack = "\033[38;2;0;0;0m"; // Black foreground
-	private static final String fwhite = "\033[38;2;190;190;190m"; // White foreground
+	private static final String fwhite = "\033[38;2;200;200;200m"; // White foreground
 	
 	/**
 	 * Constructeur du plateau de jeu
@@ -113,26 +113,29 @@ public class ChessBoard
 			System.out.println(" > " + board[y1][x1].movePossible(this, x1, y1, x2, y2));
 		}
 	}
-
+	
 	/**
 	 * Déplacement d'une pièce sur le plateau
+	 * @param color la couleur du joueur
 	 * @param	x1 la position x de départ de la pièce
 	 * @param	y1 la position y de départ de la pièce
 	 * @param	x2 la position x de d'arrivé de la pièce
 	 * @param	y2 la position y de d'arrivé de la pièce
 	 * @return	vrai si la pièce a été déplacée, faux sinon
 	 */
-	public boolean	doMove(int x1, int y1, int x2, int y2)
+	public boolean	doMove(int color, int x1, int y1, int x2, int y2)
 	{
 		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
+			return false;
+		else if (board[y1][x1].getColor() != color)
 			return false;
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
 		board[y2][x2] = board[y1][x1];
 		board[y1][x1] = null;
-		return true;	
+		return true;
 	}
-
+	
 	/**
 	 * Vérifie les situations d'échecs
 	 * @return vrai si il y a une situation d'échec
@@ -152,12 +155,10 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Affiche le plateau de jeu en utilisant les couleurs
+	 * Affiche le plateau de jeu
 	 */
 	public void	render()
 	{
-		// Sprites			♖ ♘ ♗ ♕ ♔ ♙
-		// Sprites (fill)	♜ ♞ ♝ ♛ ♚ ♟
 		String	buf;
 		int		color = 1, x, y;
 		
@@ -168,11 +169,11 @@ public class ChessBoard
 			for (x = 0; x < 8; x++)
 			{
 				System.out.print((color == 0) ? bblack : bwhite);
-				if (board[y][x] == null)
+				if (board[y][x] == null) // case vide
 					System.out.print("  ");
 				else
 				{
-					if (color == board[y][x].getColor())
+					if (color == board[y][x].getColor()) // pièce de même couleur que la case
 						buf = board[y][x].getSprite();
 					else
 						buf = board[y][x].getSpriteFill();
