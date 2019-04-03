@@ -14,7 +14,7 @@ public abstract class Player
 	 */
 	Player(int bank, int color)
 	{
-		this.bank = bank;
+		this.bank = (bank < 0) ? 0 : bank;
 		this.color = color;
 	}
 
@@ -25,6 +25,24 @@ public abstract class Player
 	public int getColor()
 	{
 		return this.color;
+	}
+	
+	/**
+	 * Récupère la valeur de la banque de temps
+	 * @return la valeur de bank
+	 */
+	public int getBank()
+	{
+		return bank;
+	}
+	
+	/**
+	 * Retire un à la banque de temps, ne fait rien si la valeur est déjà à 0
+	 */
+	public void decreaseBank()
+	{
+		if (bank > 0)
+			bank--;
 	}
 	
 	/**

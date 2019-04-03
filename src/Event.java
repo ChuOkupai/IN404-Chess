@@ -13,24 +13,28 @@ public class Event
 		this.EatenPiece=EatenPiece;
 	}
 	
-	public int getStartingx()
+	public int getStartingX()
 	{
-		return this.x1;
+		return x1;
 	}
-	public int getStartingy()
+	
+	public int getStartingY()
 	{
-		return this.y1;
+		return y1;
 	}
-	public int getFinalx()
+	
+	public int getFinalX()
 	{
-		return this.x2;
+		return x2;
 	}
-	public int getFinaly()
+	
+	public int getFinalY()
 	{
-		return this.y2;
+		return y2;
 	}
+	
 	Piece getEatenPiece()
 	{
-		return this.EatenPiece;
+		return EatenPiece;
 	}
 }
