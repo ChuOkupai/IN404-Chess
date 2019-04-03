@@ -1,8 +1,8 @@
 /*
  * Classe abstraite des joueurs
  * 
- * @author	Adrien Soursou
- * @version	27/03/2019
+ * @author	Adrien Soursou, Mathis Dankou
+ * @version	02/04/2019
  */
 
 public abstract class Player
@@ -26,4 +26,10 @@ public abstract class Player
 	{
 		return this.color;
 	}
+	
+	/**
+	 * Cette méthode retourne la commande tapée par l'utilisateur
+	 * @return 
+	 */
+	public abstract String getCom();
 }

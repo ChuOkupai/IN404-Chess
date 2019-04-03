@@ -1,5 +1,3 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
 
 /*
@@ -13,7 +11,6 @@ java.awt.Robot
 
 public class Game
 {
-	private BufferedReader reader;
 	private ChessBoard chessb;
 	private int maxSeconds, maxTurns;
 	
@@ -25,7 +22,6 @@ public class Game
 	public Game(int maxSeconds, int maxTurns)
 	{
 		this.chessb = new ChessBoard();
-		this.reader = new BufferedReader(new InputStreamReader(System.in));
 		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
 		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
 	}
@@ -89,14 +85,7 @@ public class Game
 	 **/
 	private int parseCom(int color)
 	{
-		String s = "";
-		try
-		{
-			if (reader.ready() == true) // si le fichier est à lire
-				s = reader.readLine();
-			else
-				return 0;
-		}	catch (IOException e) { e.printStackTrace(); }
+		
 		int x1,x2,y1,y2;
 		
 		if(s.length() != 4) return -1;
