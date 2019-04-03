@@ -84,22 +84,29 @@ public class Game
 	
 	/**
 	 * Interprète les commandes envoyées par un des joueurs
-	 * @param s l'instruction venant du joueur
 	 * @param color la couleur du joueur
-	 * @return int -1 si invalide, 0 si "exit", 1 si instruction de jeu
+	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu
 	 **/
-	private int parseCom(String s, int color)
+	private int parseCom(int color)
 	{
+		String s = "";
+		try
+		{
+			if (reader.ready() == true) // si le fichier est à lire
+				s = reader.readLine();
+			else
+				return 0;
+		}	catch (IOException e) { e.printStackTrace(); }
 		int x1,x2,y1,y2;
 		
 		if(s.length() != 4) return -1;
-		if(s.equals("exit") == true) return 0;
+		if(s.equals("exit") == true) return 1;
 	
 		x1 = s.charAt(0) - 'a';
 		y1 = s.charAt(1) - '0' - 1;
 		x2 = s.charAt(2) - 'a';
 		y2 = s.charAt(3) - '0' - 1;
-		return (chessb.doMove(color,x1,y1,x2,y2) == false) ? -1 : 1;
+		return (chessb.doMove(color,x1,y1,x2,y2) == false) ? -1 : 2;
 	}
 	
 	/**
@@ -110,7 +117,6 @@ public class Game
 	{
 		long	t0, dt;
 		int		color = 1, turn = 1, frame, ret;
-		String	buffer = "";
 		
 		while (maxTurns == 0 || turn <= maxTurns)
 		{
@@ -126,20 +132,14 @@ public class Game
 			{
 				if (frame == dt) // si une nouvelle frame doit être rendue
 					render(color, turn, frame++); // Affiche et prépare de la seconde suivante
-				try
-				{
-					if (reader.ready() == true) // si le fichier est à lire
-					{
-						buffer = reader.readLine();
-						ret = parseCom(buffer, color);
-						if (ret == 0)
-							return;
-						else if (ret == 1)
-							break;
-						else
-							System.out.print("\033[1A\r\033[4C\033[K"); // Reset du reader
-					}
-				}	catch (IOException e) { e.printStackTrace(); }
+				ret = parseCom(color);
+				if (ret == 0);
+				else if (ret == 1)
+					return;
+				else if (ret == 2)
+					break;
+				else // (ret == -1)
+					System.out.print("\033[1A\r\033[4C\033[K"); // Reset du reader
 				dt = (System.currentTimeMillis() - t0) / 1000;
 			}	while (maxSeconds == 0 || dt < maxSeconds);
 			if (color == 0) // Si c'était au tour du joueur 2

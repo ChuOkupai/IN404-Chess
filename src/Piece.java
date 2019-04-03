@@ -25,7 +25,10 @@ public abstract class Piece
 	 * Cette méthode retourne la couleur de la piece
 	 * @return	this.color la couleur de la piece ( 0: noir 1: blanc )
 	 */
-	public int getColor(){return this.color;}
+	public int getColor()
+	{
+		return this.color;
+	}
 	
 	/**
 	 * Cette méthode retourne le sprite de la piece

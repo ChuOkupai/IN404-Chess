@@ -16,6 +16,7 @@ enum Main
 	public void run(String[] args)
 	{
 		Game game = new Game(10, 0);
+	
 		
 		game.run();
 	}
