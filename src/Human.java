@@ -8,22 +8,29 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
  
-public class Human
+public class Human extends Player
 {
+	private BufferedReader reader;
 	
 	public Human(int bank, int color)
 	{
+		super(bank, color);
 		this.reader = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
 	public String getCom()
 	{
-		String com;
+		String com = "";
 		try
 		{
 			if(reader.ready() == true)
-				buffer = reader.readLine();
+			{
+				com = reader.readLine();
+				if(com.length​() >= 4) com = com.subchain(0,5);
+			}
 		}
 		catch(IOException e){ e.printStackTrace(); }
+		
+		return com;
 	}
 }

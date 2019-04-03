@@ -28,8 +28,8 @@ public abstract class Player
 	}
 	
 	/**
-	 * Cette méthode retourne la commande tapée par l'utilisateur
-	 * @return 
+	 * Cette méthode retourne la commande tapée par le joueur
+	 * @return la commande joueur
 	 */
 	public abstract String getCom();
 }

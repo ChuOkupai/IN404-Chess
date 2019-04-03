@@ -83,18 +83,17 @@ public class Game
 	 * @param color la couleur du joueur
 	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu
 	 **/
-	private int parseCom(int color)
+	private int parseCom(String com, int color)
 	{
-		
 		int x1,x2,y1,y2;
 		
-		if(s.length() != 4) return -1;
-		if(s.equals("exit") == true) return 1;
-	
-		x1 = s.charAt(0) - 'a';
-		y1 = s.charAt(1) - '0' - 1;
-		x2 = s.charAt(2) - 'a';
-		y2 = s.charAt(3) - '0' - 1;
+		if(com.length() != 4) return -1;
+		if(com.equals("exit") == true) return 1;
+		
+		x1 = com.charAt(0) - 'a';
+		y1 = com.charAt(1) - '0' - 1;
+		x2 = com.charAt(2) - 'a';
+		y2 = com.charAt(3) - '0' - 1;
 		return (chessb.doMove(color,x1,y1,x2,y2) == false) ? -1 : 2;
 	}
 	
@@ -102,8 +101,8 @@ public class Game
 	 * S'occupe de la logique de jeu
 	 * Bug connu: si l'utilisateur dépasse la ligne en écrivant sur le buffer, l'affichage ne fonctionne plus correctement
 	 */
-	public void run()
-	{
+	public void run()//Rajouter des paramètres
+	{ 
 		long	t0, dt;
 		int		color = 1, turn = 1, frame, ret;
 		
