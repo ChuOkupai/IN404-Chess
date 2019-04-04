@@ -187,4 +187,12 @@ public class ChessBoard
 		}
 		System.out.println(bbrown + "    a b c d e f g h   " + reset);
 	}
+	
+	/**
+	 * Gère la promotion d'une pièce
+	 **/
+	private void promote(int x, int y)
+	{
+		// c'est la fête
+	}
 }
