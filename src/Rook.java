@@ -50,7 +50,7 @@ public class Rook extends Piece
 						x1+=1;
 						if((x1==x2))
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 						return true;
 					    }
@@ -61,7 +61,7 @@ public class Rook extends Piece
 						x1-=1;
 						if(x1==x2)
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 						return true;
 					    }
@@ -78,7 +78,7 @@ public class Rook extends Piece
 					 y1+=1;
 						if((y1==y2))
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 						return true;
 					    }
@@ -89,7 +89,7 @@ public class Rook extends Piece
 						y1-=1;
 						if((y1==y2))
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 					    return true;
 					    }

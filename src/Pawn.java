@@ -52,7 +52,7 @@ public class Pawn extends Piece
 			}
 		    else if(dx == -1 || dx == 1)
 			{
-				if(!b.isEmpty(x2, y2) && b.getPiece(x2, y2).getColor() != this.getColor())
+				if(!b.isEmpty(x2, y2) && b.getPieceColor(x2, y2) != this.getColor())
 					return true;
 			}
 			

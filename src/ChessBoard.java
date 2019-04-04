@@ -72,16 +72,14 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Permet de récupérer une pièce sur le plateau
-	 * /!\ OBSOLETE /!\ Utiliser getPieceColor pour récupérer la couleur
-	 * (suppression d'ici les prochaines versions)
+	 * Vérifie si une pièce est un pion
 	 * @param x coordonnée horizontale
 	 * @param y coordonnée verticale
-	 * @return la pièce si elle existe, null sinon
+	 * @return vrai si la pièce est un pion, faux sinon
 	 */
-	public Piece	getPiece(int x, int y)
+	public boolean	isPawn(int x, int y)
 	{
-		return board[y][x];
+		return (board[y][x] != null && board[y][x].getSprite().equals("♙") == true) ? true : false;
 	}
 	
 	/**

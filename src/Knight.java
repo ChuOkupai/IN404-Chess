@@ -38,7 +38,7 @@ public class Knight extends Piece
 		{
 			if(b.isEmpty(x2, y2))
 				return true;
-			if(!b.isEmpty(x2, y2) && b.getPiece(x2, y2).getColor() != this.getColor())
+			if(!b.isEmpty(x2, y2) && b.getPieceColor(x2, y2) != this.getColor())
 				return true;
 		}
 		return false;
