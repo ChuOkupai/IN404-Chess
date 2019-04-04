@@ -67,7 +67,7 @@ public class Game
 		else if (s < 16) // affichage en jaune
 			System.out.print("\033[38;2;255;255;55m");
 		System.out.print(s + "s");
-		if (s < 11)
+		if (s < 16)
 			System.out.print("\033[0m");
 		System.out.println();
 	}
@@ -162,13 +162,8 @@ public class Game
 					System.out.print("\r\033[K\033[1A\r\033[4C\033[K"); // Reset du reader
 				dt = (System.currentTimeMillis() - t0) / 1000;
 			}	while ((maxSeconds == 0 || dt < maxSeconds) || (bank != 0 && player[color].getBank() != 0));
-			if (bank != 0)
-			{
-				if (player[0].getBank() == 0) // les Noirs ont gagnés
-					return;
-				else if (player[1].getBank() == 0) // les Blancs ont gagnés
-					return;
-			}
+			if (bank != 0 && player[color].getBank() == 0)
+				return;
 			if (color == 0) // Si c'était au tour du joueur 2
 				turn++;
 			color = 1 - color;

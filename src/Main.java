@@ -15,7 +15,8 @@ enum Main
 	 */
 	public void run(String[] args)
 	{
-		Game game = new Game(60, 30, 0);
+		// bank, maxSeconds, maxTurns
+		Game game = new Game(30, 30, 4);
 		game.run();
 	}
 	// A décommenter pour tester des déplacements (ne pas oublier de commenter l'autre fonction run)
