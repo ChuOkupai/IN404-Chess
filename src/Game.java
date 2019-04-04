@@ -8,7 +8,7 @@
 public class Game
 {
 	private ChessBoard chessb;
-	private int bank, color, maxSeconds, maxTurns, lines;
+	private int bank, color, maxSeconds, maxTurns;
 	private Player[] player;
 	private String mode;
 	
@@ -29,9 +29,6 @@ public class Game
 		player[0] = new Human(this.bank, 0);
 		player[1] = new Human(this.bank, 1);
 		mode = (bank > 0 && maxSeconds > 0) ? "Blitz" : null;
-		lines = 1;
-		if (this.bank > 0) lines++;
-		if (this.maxSeconds > 0) lines++;
 	}
 	
 	/**
@@ -42,16 +39,11 @@ public class Game
 	private String randomCoor()
 	{
 		char x1, x2, y1, y2;
-		
-		x1 = (char)(Math.random() * 8);
-		while (x1 == (x2 = (char)(Math.random() * 8)));
-		x1 += 97;
-		x2 += 97;
-		y1 = (char)(Math.random() * 8);
-		while (y1 == (y2 = (char)(Math.random() * 8)));
-		y1 += 49;
-		y2 += 49;
-		return (String)("" + x1 + y1 + x2 + y2);
+		x1 = (char)(Math.random() * 8 + 97);
+		while (x1 == (x2 = (char)(Math.random() * 8 + 97)));
+		y1 = (char)(Math.random() * 8 + 49);
+		while (y1 == (y2 = (char)(Math.random() * 8 + 49)));
+		return "" + x1 + y1 + x2 + y2;
 	}
 	
 	/**
@@ -60,50 +52,43 @@ public class Game
 	 */
 	private void renderSeconds(int s)
 	{
-		if (s < 6) // affichage en rouge
-			System.out.print("\033[38;2;255;55;55m");
-		else if (s < 11) // affichage en orange
-			System.out.print("\033[38;2;255;128;55m");
-		else if (s < 16) // affichage en jaune
-			System.out.print("\033[38;2;255;255;55m");
-		System.out.print(s + "s");
-		if (s < 16)
-			System.out.print("\033[0m");
-		System.out.println();
+		if (s < 6) System.out.print("\033[38;2;255;55;55m"); // rouge
+		else if (s < 11) System.out.print("\033[38;2;255;128;55m"); // orange
+		else if (s < 16) System.out.print("\033[38;2;255;255;30m"); // jaune
+		System.out.println(s + "s\033[0m");
 	}
 	
 	/**
 	 * Rendu de l'affichage qui contient les informations de la partie
-	 * @param color la couleur du joueur
 	 * @param turn le tour en cours
 	 * @param frame le numéro de la frame à rendre (une par seconde)
-	 * @param lines le nombre de lines de décalage (pour déplacer le curseur)
 	 */
-	private void render(int turn, int frame, int lines)
+	private void render(int turn, int frame)
 	{
+		System.out.print("\033[s");
+		if (turn == 1 && frame % 5 == 0) // coordonnées random
+			System.out.print("\033[3;31H" + this.randomCoor());
+		System.out.print("\033[5H");
 		if (frame == 0) // Initialisation lors de la première frame
 		{
-			if (mode != null)
-				System.out.println("  Mode: " + mode);
-			System.out.println("  " + ((color % 2 == 0) ? "Black" : "White") + "'s turn");
-			System.out.print("  Turn: " + turn);
-			if (maxTurns > 0)
-				System.out.print(" of " + maxTurns);
+			if (mode != null) System.out.println("\033[25CMode: " + mode);
+			System.out.println("\033[25C" + ((color % 2 == 0) ? "Black" : "White") + "'s turn");
+			System.out.print("\033[25CTurn: " + turn);
+			if (maxTurns > 0) System.out.print(" of " + maxTurns);
 			System.out.println();
 		}
-		else // sauvegarde la position du curseur puis le déplace en fonction de lines
-			System.out.print("\033[s\033[" + lines + "A");
+		else System.out.print("\033[" + ((mode != null) ? 3 : 2) + "B");
 		if (bank > 0)
 		{
-			System.out.print((frame == 0) ? "  Bank: " : "\r\033[8C\033[K");
+			System.out.print((frame == 0) ? "\033[25CBank: " : "\033[31C\033[K");
 			renderSeconds(player[color].getBank());
 		}
 		if (maxSeconds > 0)
 		{
-			System.out.print((frame == 0) ? "  Time left: " : "\r\033[13C\033[K");
+			System.out.print((frame == 0) ? "\033[25CTime left: " : "\033[36C\033[K");
 			renderSeconds(maxSeconds - frame);
 		}
-		System.out.print((frame == 0) ? "\n  > " : "\033[u");
+		System.out.print((turn == 1 && frame == 0 && color == 1) ? "\033[12H  > " : "\033[u");
 	}
 	
 	/**
@@ -127,46 +112,50 @@ public class Game
 	}
 	
 	/**
-	 * S'occupe de la logique de jeu
-	 * Bug connu: si l'utilisateur dépasse la ligne en écrivant sur le buffer, l'affichage ne fonctionne plus correctement
+	 * S'occupe de la logique du jeu, en faisant jouer les adversaires tour à tour
 	 */
 	public void run()//Rajouter des paramètres
 	{ 
 		long	t0, dt;
 		int		turn = 1, frame, ret;
 		
+		System.out.print("\033c"); // efface l'écran
 		while (maxTurns == 0 || turn <= maxTurns)
 		{
 			t0 = System.currentTimeMillis();
 			dt = 0;
 			frame = 0;
-			System.out.print("\033c"); // efface l'écran
+			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
 			chessb.render();
-			System.out.println();
 			if (turn == 1) // Information pour le premier tour
-				System.out.println(" Input format: [a-h][1-8][a-h][1-8] (ex " + this.randomCoor() + ")\n");
-			do // Met à jour le rendu et l'entrée utilisateur une fois par seconde
+				System.out.print("\033[2;25HInput format: [a-h][1-8][a-h][1-8]\n\033[24Cex: > ");
+			System.out.print("\033[u"); // restaure la position du curseur
+			do
 			{
 				if (frame == dt) // si une nouvelle frame doit être rendue
 				{
-					render(turn, frame++, lines); // Affiche et prépare de la seconde suivante
+					// Met à jour le rendu et l'entrée utilisateur une fois par seconde
+					render(turn, frame++); // Affiche et prépare de la seconde suivante
 					if (dt >= maxSeconds)
+					{
+						if (bank != 0 && player[color].getBank() == 0)
+						{
+							System.out.println();
+							return;
+						}
 						player[color].decreaseBank();
+					}
 				}
 				ret = parseCom(player[color].getCom());
-				if (ret == 0);
-				else if (ret == 1)
-					return;
-				else if (ret == 2)
-					break;
-				else // (ret == -1)
+				if (ret == 1) return;
+				else if (ret == 2 || ret == -1)
+				{
 					System.out.print("\r\033[K\033[1A\r\033[4C\033[K"); // Reset du reader
+					if (ret == 2) break;
+				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
-			}	while ((maxSeconds == 0 || dt < maxSeconds) || (bank != 0 && player[color].getBank() != 0));
-			if (bank != 0 && player[color].getBank() == 0)
-				return;
-			if (color == 0) // Si c'était au tour du joueur 2
-				turn++;
+			}	while ((maxSeconds == 0 || dt < maxSeconds) || bank != 0);
+			if (color == 0) turn++;// Si c'était au tour du joueur 2
 			color = 1 - color;
 		}
 	}
