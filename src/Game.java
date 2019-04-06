@@ -8,7 +8,7 @@
 public class Game
 {
 	private ChessBoard chessb;
-	private int bank, color, maxSeconds, maxTurns;
+	private int bank, color, turn, maxSeconds, maxTurns;
 	private Player[] player;
 	private String mode;
 	
@@ -23,6 +23,7 @@ public class Game
 		chessb = new ChessBoard();
 		color = 1;
 		this.bank = (bank < 0) ? 0 : bank;
+		this.turn = 1;
 		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
 		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
 		player = new Player[2];
@@ -97,7 +98,9 @@ public class Game
 	private void promote(int x, int y)
 	{
 		String buf = null;
-		System.out.print("\033[s\033[14H  Choose a promotion: rook, knight, bishop or queen\033[12;5H\033[K");
+		System.out.print("\033[s\033[1;1H");
+		chessb.render();
+		System.out.print("\033[14H  Choose a promotion: rook, knight, bishop or queen\033[12;5H\033[K");
 		while (buf == null)
 		{
 			buf = player[color].getCom();
@@ -128,7 +131,10 @@ public class Game
 		
 		if (com.equals("undo") == true)
 		{
-			//chessb.undo();
+			if (turn < 2)
+				return -1;
+			chessb.undo();
+			chessb.undo();
 			return 3;
 		}
 		else if (com.equals("exit") == true) return 1;
@@ -153,7 +159,7 @@ public class Game
 	public void run()
 	{ 
 		long	t0, dt;
-		int		turn = 1, frame, ret;
+		int		frame, ret;
 		
 		System.out.print("\033c"); // efface l'écran
 		while (maxTurns == 0 || turn <= maxTurns)
@@ -184,10 +190,16 @@ public class Game
 				}
 				ret = parseCom(player[color].getCom());
 				if (ret == 1) return;
-				else if (ret == 2 || ret == -1)
+				else if (ret == 2 || ret == -1 || ret == 3)
 				{
 					System.out.print("\r\033[K\033[1A\r\033[4C\033[K"); // Reset du reader
-					if (ret == 2) break;
+					if (ret == 3)
+					{
+						turn -= 2;
+						color = 1 - color;
+						break;
+					}
+					else if (ret == 2) break;
 				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
 			}	while ((maxSeconds == 0 || dt < maxSeconds) || bank != 0);
