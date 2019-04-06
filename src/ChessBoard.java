@@ -131,9 +131,13 @@ public class ChessBoard
 		{
 			kingX[color] = x2;
 			kingY[color] = y2;
-			// VERIF ECHEC AVEC PILE
+			
+			if(isCheck(color))
+			{
+				undo();
+				return false;
+			}
 		}
-		
 		return true;
 	}
 	
@@ -163,9 +167,15 @@ public class ChessBoard
 	 */
 	public int	isCheckmate(int color)
 	{
+		int flag = 0;
 		if (isCheck(color) == false)
 			return 0;
 		int x = kingX[color] - 1, y = kingY[color] - 1, i = 0;
+		//Verifie si le roi peut se déplecer
+		while(x != 1)
+		{
+			
+		}
 		return 0;
 	}
 	
@@ -214,8 +224,32 @@ public class ChessBoard
 	/**
 	 * Reviens sur un coup 
 	 **/
-	private void undo()
+	public void undo()
 	{
-		if(!stack.empty()) stack.pop();
+		Event e;
+		Event eprev;
+		if(stack.size() >= 1)
+		{
+			e = stack.pop();
+			eprev = (stack.size < 1 ) ? null : stack.peek();
+			int startx = e.getStartingX(); 
+			int starty = e.getStartingY();
+			int finalx = e.getFinalX();
+			int finaly = e.getFinalY();
+			board[starty][startx] = board[finaly][finalx];
+			board[finaly][finalx] = e.getEatenPiece();
+			if(eprev.getStartingX() == startx && eprev.getStartingY() == starty)
+			{
+				//faire changement
+				stack.pop();
+			}
+			
+			if(board[starty][startx].getSprite().equals("♔"))
+			{
+				int color = board[starty][startx].getSprite().getColor();
+				kingY[color] = starty;
+				kingX[color] = startx;
+			}
+		}
 	}
 }
