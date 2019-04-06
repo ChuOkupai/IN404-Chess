@@ -10,7 +10,6 @@ public class Game
 	private ChessBoard chessb;
 	private int bank, color, maxSeconds, maxTurns;
 	private Player[] player;
-	private AI ai;
 	private String mode;
 	
 	/**
@@ -29,9 +28,23 @@ public class Game
 		player = new Player[2];
 		player[0] = new Human(this.bank, 0);
 		player[1] = new Human(this.bank, 1);
-		ai = new AI();
 		mode = (bank > 0 && maxSeconds > 0) ? "Blitz" : null;
 	}
+	
+	/**
+	 * Crée des coordonnées aléatoires sous forme de chaîne de charactères
+	 * 
+	 * @return la chaîne de charactères contenant le déplacement
+	 */
+	private String randomCoor()
+	{
+		char x1, x2, y1, y2;
+		x1 = (char)(Math.random() * 8 + 97);
+		while (x1 == (x2 = (char)(Math.random() * 8 + 97)));
+		y1 = (char)(Math.random() * 8 + 49);
+		while (y1 == (y2 = (char)(Math.random() * 8 + 49)));
+		return "" + x1 + y1 + x2 + y2;
+}
 	
 	/**
 	 * Rendu des secondes en couleur
@@ -54,7 +67,7 @@ public class Game
 	{
 		System.out.print("\033[s");
 		if (turn == 1 && frame % 5 == 0) // coordonnées random
-			System.out.print("\033[3;31H" + ai.getCom());
+			System.out.print("\033[3;31H" + randomCoor());
 		System.out.print("\033[5H");
 		if (frame == 0) // Initialisation lors de la première frame
 		{
@@ -79,11 +92,28 @@ public class Game
 	}
 	
 	/**
-	 * Attend que le joueur choisisse une pièce
+	 * Attend que le joueur choisisse une pièce puis la remplace
 	 **/
-	private void promote()
+	private void promote(int x, int y)
 	{
-		
+		String buf = null;
+		System.out.print("\033[s\033[14H  Choose a promotion: rook, knight, bishop or queen\033[12;5H\033[K");
+		while (buf == null)
+		{
+			buf = player[color].getCom();
+			if (buf == null)
+				continue;
+			if (buf.equals("rook")) chessb.promote(new Rook(color), x, y);
+			else if (buf.equals("knight")) chessb.promote(new Knight(color), x, y);
+			else if (buf.equals("bishop")) chessb.promote(new Bishop(color), x, y);
+			else if (buf.equals("queen")) chessb.promote(new Queen(color), x, y);
+			else
+			{
+				buf = null;
+				System.out.print("\033[12;5H\033[K");
+			}
+		}
+		System.out.print("\033[14H\033[K\033[13H\033[u");
 	}
 	
 	/**
@@ -96,17 +126,17 @@ public class Game
 			return 0;
 		int x1,x2,y1,y2;
 		
-		if(com.equals("exit") == true) return 1;
+		if (com.equals("exit") == true) return 1;
 		
 		x1 = com.charAt(0) - 'a';
 		y1 = com.charAt(1) - '0' - 1;
 		x2 = com.charAt(2) - 'a';
 		y2 = com.charAt(3) - '0' - 1;
 		
-		if(chessb.doMove(color,x1,y1,x2,y2) == true)
+		if (chessb.doMove(color,x1,y1,x2,y2) == true)
 		{
-			if(chessb.isPawn(x2, y2))
-				promote();
+			if (chessb.isPawn(x2, y2) && (color == 0 && y2 == 0) || (color == 1 && y2 == 7))
+				promote(x2, y2);
 			return 2;
 		}
 		return -1;
@@ -127,6 +157,7 @@ public class Game
 			dt = 0;
 			frame = 0;
 			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
+			System.out.print("\033[1;1H"); // déplace le curseur en haut de l'écran
 			chessb.render();
 			if (turn == 1) // Information pour le premier tour
 				System.out.print("\033[2;25HInput format: [a-h][1-8][a-h][1-8]\n\033[24Cex: > ");
