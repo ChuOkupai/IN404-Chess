@@ -121,7 +121,7 @@ public class ChessBoard
 		{
 			kingX[color] = x2;
 			kingY[color] = y2;
-			// VERIF ECHEC ET MAT 
+			// VERIF ECHEC AVEC PILE
 		}
 		return true;
 	}
@@ -154,16 +154,8 @@ public class ChessBoard
 	{
 		if (isCheck(color) == false)
 			return 0;
-		int x, y = 0;
-		while (y < 8)
-		{
-			x = 0;
-			while (x < 8)
-				if (board[y][x] != null && board[y][x].getColor != color)
-					if (board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
-						return true;
-		}
-		return false;
+		int x = kingX[color] - 1, y = kingY[color] - 1;
+		return 0;
 	}
 	
 	/**
