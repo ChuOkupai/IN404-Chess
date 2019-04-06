@@ -28,7 +28,7 @@ public class Game
 		player = new Player[2];
 		player[0] = new Human(this.bank, 0);
 		player[1] = new Human(this.bank, 1);
-		mode = (bank > 0 && maxSeconds > 0) ? "Blitz" : null;
+		mode = (bank > 0 && maxSeconds > 0 && maxSeconds < 46) ? "Blitz" : "Normal";
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class Game
 		y1 = (char)(Math.random() * 8 + 49);
 		while (y1 == (y2 = (char)(Math.random() * 8 + 49)));
 		return "" + x1 + y1 + x2 + y2;
-}
+	}
 	
 	/**
 	 * Rendu des secondes en couleur
@@ -118,7 +118,7 @@ public class Game
 	
 	/**
 	 * Interprète les commandes envoyées par un des joueurs
-	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu seulement
+	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu seulement, 3 si undo
 	 **/
 	private int parseCom(String com)
 	{
@@ -126,7 +126,12 @@ public class Game
 			return 0;
 		int x1,x2,y1,y2;
 		
-		if (com.equals("exit") == true) return 1;
+		if (com.equals("undo") == true)
+		{
+			//chessb.undo();
+			return 3;
+		}
+		else if (com.equals("exit") == true) return 1;
 		
 		x1 = com.charAt(0) - 'a';
 		y1 = com.charAt(1) - '0' - 1;
@@ -157,7 +162,6 @@ public class Game
 			dt = 0;
 			frame = 0;
 			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
-			System.out.print("\033[1;1H"); // déplace le curseur en haut de l'écran
 			chessb.render();
 			if (turn == 1) // Information pour le premier tour
 				System.out.print("\033[2;25HInput format: [a-h][1-8][a-h][1-8]\n\033[24Cex: > ");
