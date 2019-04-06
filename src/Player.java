@@ -47,6 +47,8 @@ public abstract class Player
 	
 	/**
 	 * Cette méthode retourne la commande tapée par le joueur
+	 * Si c'est un humain, renvoie l'entrée utilisateur
+	 * Si c'est une IA, renvoie une entrée aléatoire
 	 * @return la commande joueur
 	 */
 	public abstract String getCom();

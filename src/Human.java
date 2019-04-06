@@ -27,9 +27,8 @@ public class Human extends Player
 			if(reader.ready() == true)
 			{
 				com = reader.readLine();
-				if (com.length​() < 4)
+				if (com.length() < 4)
 					com = "    ";
-				else if(com.length​() > 4) com = com.substring(0,5);
 			}
 		}
 		catch(IOException e){ e.printStackTrace(); }

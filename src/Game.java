@@ -10,6 +10,7 @@ public class Game
 	private ChessBoard chessb;
 	private int bank, color, maxSeconds, maxTurns;
 	private Player[] player;
+	private AI ai;
 	private String mode;
 	
 	/**
@@ -28,22 +29,8 @@ public class Game
 		player = new Player[2];
 		player[0] = new Human(this.bank, 0);
 		player[1] = new Human(this.bank, 1);
+		ai = new AI();
 		mode = (bank > 0 && maxSeconds > 0) ? "Blitz" : null;
-	}
-	
-	/**
-	 * Crée des coordonnées aléatoires sous forme de chaîne de charactères
-	 * 
-	 * @return la chaîne de charactères contenant le déplacement
-	 */
-	private String randomCoor()
-	{
-		char x1, x2, y1, y2;
-		x1 = (char)(Math.random() * 8 + 97);
-		while (x1 == (x2 = (char)(Math.random() * 8 + 97)));
-		y1 = (char)(Math.random() * 8 + 49);
-		while (y1 == (y2 = (char)(Math.random() * 8 + 49)));
-		return "" + x1 + y1 + x2 + y2;
 	}
 	
 	/**
@@ -67,7 +54,7 @@ public class Game
 	{
 		System.out.print("\033[s");
 		if (turn == 1 && frame % 5 == 0) // coordonnées random
-			System.out.print("\033[3;31H" + this.randomCoor());
+			System.out.print("\033[3;31H" + ai.getCom());
 		System.out.print("\033[5H");
 		if (frame == 0) // Initialisation lors de la première frame
 		{

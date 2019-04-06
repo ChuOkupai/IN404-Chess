@@ -13,8 +13,8 @@ build: src/*.java
 	mkdir -p bin
 	javac $^ -d bin
 
-Chess.jar: doc build
-	jar cfe $@ . ./bin/Main.class $<
+Chess.jar: build
+	jar cfe $@ bin.Main bin/*.class src/*.java
 
 run: Chess.jar
 	java -jar $<
