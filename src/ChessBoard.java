@@ -228,7 +228,7 @@ public class ChessBoard
 	public void undo()
 	{
 		Event e;
-		if(stack.size() >= 1)
+		if(stack.empty() == false)
 		{
 			e = stack.pop();
 			int startx = e.getStartingX(); 
@@ -245,7 +245,7 @@ public class ChessBoard
 				kingX[color] = startx;
 			}
 			
-			else if(stack.peek().getStartingX() == startx && stack.peek().getStartingY() == starty)
+			else if(startx == finalx && starty == finaly)
 			{
 				undo();
 			}
