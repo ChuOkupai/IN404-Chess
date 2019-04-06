@@ -5,10 +5,13 @@
  * @version	06/04/2019
  */
 
+import java.util.Stack;
+
 public class ChessBoard
 {
 	private Piece[][] board;
-	int kingX[2], kingY[2];
+	private Stack<Event> stack;
+	private int kingX[2], kingY[2];
 	
 	// Couleurs pour le rendu
 	private static final String reset = "\033[0m"; // Reset text color
@@ -26,6 +29,7 @@ public class ChessBoard
 		int x, y1, y2;
 		
 		board = new Piece[8][8];
+		stack = new Stack<Event>();
 		for (x = 0, y1 = 1, y2 = 6; x < 8; x++)
 		{
 			board[y2][x] = new Pawn(0);
@@ -107,6 +111,7 @@ public class ChessBoard
 	 */
 	public boolean	doMove(int color, int x1, int y1, int x2, int y2)
 	{
+		
 		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
 			return false;
 		else if (x1 == x2 && y1 == y2)
@@ -115,14 +120,18 @@ public class ChessBoard
 			return false;
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
+
+		stack.push(new Event(x1,y1,x2,y2, board[y2][x2]));
 		board[y2][x2] = board[y1][x1];
 		board[y1][x1] = null;
+		
 		if (board[y2][x2].getSprite().equals("♔"))
 		{
 			kingX[color] = x2;
 			kingY[color] = y2;
 			// VERIF ECHEC AVEC PILE
 		}
+		
 		return true;
 	}
 	
@@ -198,5 +207,13 @@ public class ChessBoard
 	private void promote(int x, int y)
 	{
 		// c'est la fête
+	}
+	
+	/**
+	 * Reviens sur un coup 
+	 **/
+	private void undo()
+	{
+		if(!stack.empty()) stack.pop();
 	}
 }
