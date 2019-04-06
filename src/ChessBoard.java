@@ -8,7 +8,7 @@
 public class ChessBoard
 {
 	private Piece[][] board;
-	int kingX[2], kingY[2];
+	int[] kingX, kingY;
 	
 	// Couleurs pour le rendu
 	private static final String reset = "\033[0m"; // Reset text color
@@ -48,6 +48,8 @@ public class ChessBoard
 		board[0][3] = new Queen(1);
 		board[7][4] = new King(0);
 		board[0][4] = new King(1);
+		int[] kingX = new int[2];
+		int[] kingY = new int[2];
 		kingY[0] = 7; kingX[0] = 4;
 		kingY[1] = 0; kingX[1] = 4;
 	}
@@ -138,7 +140,7 @@ public class ChessBoard
 		{
 			x = 0;
 			while (x < 8)
-				if (board[y][x] != null && board[y][x].getColor != color)
+				if (board[y][x] != null && board[y][x].getColor() != color)
 					if (board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
 						return true;
 		}
@@ -154,7 +156,7 @@ public class ChessBoard
 	{
 		if (isCheck(color) == false)
 			return 0;
-		int x = kingX[color] - 1, y = kingY[color] - 1;
+		int x = kingX[color] - 1, y = kingY[color] - 1, i = 0;
 		return 0;
 	}
 	

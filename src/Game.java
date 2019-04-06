@@ -79,8 +79,16 @@ public class Game
 	}
 	
 	/**
+	 * Attend que le joueur choisisse une pièce
+	 **/
+	private void promote()
+	{
+		
+	}
+	
+	/**
 	 * Interprète les commandes envoyées par un des joueurs
-	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu seulement, 3 si promotion en plus
+	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu seulement
 	 **/
 	private int parseCom(String com)
 	{
@@ -95,15 +103,11 @@ public class Game
 		x2 = com.charAt(2) - 'a';
 		y2 = com.charAt(3) - '0' - 1;
 		
-		if(chessb.doMove(color,x1,y1,x2,y2) == 2)
+		if(chessb.doMove(color,x1,y1,x2,y2) == true)
 		{
 			if(chessb.isPawn(x2, y2))
-			{
-				if((color == 0 && y2 == 0) || (color == 1 && y2 == 7))
-				{
-					return 3;
-				}
-			}
+				promote();
+			return 2;
 		}
 		return -1;
 	}
