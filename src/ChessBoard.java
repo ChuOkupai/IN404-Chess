@@ -55,7 +55,7 @@ public class ChessBoard
 		int[] kingX = new int[2];
 		int[] kingY = new int[2];
 		kingY[0] = 7; kingX[0] = 4;
-		kingY[1] = 0; kingX[1] = 4;board[6][0] = null;board[7][0] = null;board[6][0] = new Pawn(1);
+		kingY[1] = 0; kingX[1] = 4;
 	}
 	
 	/**
