@@ -52,4 +52,10 @@ public abstract class Player
 	 * @return la commande joueur
 	 */
 	public abstract String getCom();
+	
+	/**
+	 * S'occupe de la promotion d'un pion
+	 * @return la chaîne de la nouvelle pièce
+	 */
+	public abstract String getPromotion();
 }

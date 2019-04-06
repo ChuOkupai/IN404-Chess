@@ -7,11 +7,6 @@
 
 public class AI extends Player
 {
-	public AI()
-	{
-		super(0, 0);
-	}
-
 	public AI(int bank, int color)
 	{
 		super(bank, color);
@@ -26,5 +21,14 @@ public class AI extends Player
 		while (y1 == (y2 = (char)(Math.random() * 8 + 49)));
 		System.out.println();
 		return "" + x1 + y1 + x2 + y2;
+	}
+	
+	public String getPromotion()
+	{
+		int n = Math.random() * 4;
+		if (n == 0) return "rook";
+		else if (n == 1) return "knight";
+		else if (n == 2) return "bishop";
+		return "queen";
 	}
 }

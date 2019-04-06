@@ -122,7 +122,7 @@ public class ChessBoard
 			return false;
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
-
+		
 		stack.push(new Event(x1,y1,x2,y2, board[y2][x2]));
 		board[y2][x2] = board[y1][x1];
 		board[y1][x1] = null;
@@ -216,9 +216,10 @@ public class ChessBoard
 	/**
 	 * Gère la promotion d'une pièce
 	 **/
-	private void promote(int x, int y)
+	public void promote(Piece p, int x, int y)
 	{
-		// c'est la fête
+		stack.push(new Event(x, y, x, y, board[y][x]));
+		board[y][x] = p;
 	}
 	
 	/**

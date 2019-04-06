@@ -34,4 +34,9 @@ public class Human extends Player
 		catch(IOException e){ e.printStackTrace(); }
 		return com;
 	}
+	
+	public String getPromotion()
+	{
+		return getCom();
+	}
 }
