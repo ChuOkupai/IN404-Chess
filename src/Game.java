@@ -80,7 +80,7 @@ public class Game
 	
 	/**
 	 * Interprète les commandes envoyées par un des joueurs
-	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu
+	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu seulement, 3 si promotion en plus
 	 **/
 	private int parseCom(String com)
 	{
@@ -94,8 +94,19 @@ public class Game
 		y1 = com.charAt(1) - '0' - 1;
 		x2 = com.charAt(2) - 'a';
 		y2 = com.charAt(3) - '0' - 1;
-		return (chessb.doMove(color,x1,y1,x2,y2) == false) ? -1 : 2;
-		// gère la promotion ma gueule si vrai
+		
+		int stat = chessb.doMove(color,x1,y1,x2,y2);
+		if(stat == 2)
+		{
+			if(chessb.isPawn(x2, y2))
+			{
+				if((color == 0 && y2 == 0) || (color == 1 && y2 == 7))
+				{
+					return 3;
+				}
+			}
+		}
+		return -1;
 	}
 	
 	/**
