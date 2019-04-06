@@ -2,12 +2,13 @@
  * Classe représentant le plateau du jeu
  *
  * @author	Adrien Soursou
- * @version	27/03/2019
+ * @version	06/04/2019
  */
 
 public class ChessBoard
 {
 	private Piece[][] board;
+	int kingX[2], kingY[2];
 	
 	// Couleurs pour le rendu
 	private static final String reset = "\033[0m"; // Reset text color
@@ -47,6 +48,8 @@ public class ChessBoard
 		board[0][3] = new Queen(1);
 		board[7][4] = new King(0);
 		board[0][4] = new King(1);
+		kingY[0] = 7; kingX[0] = 4;
+		kingY[1] = 0; kingX[1] = 4;
 	}
 	
 	/**
@@ -94,25 +97,6 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Cette méthode permet de tester un déplacement (debug)
-	 * @param	x1 la position x de départ de la pièce
-	 * @param	y1 la position y de départ de la pièce
-	 * @param	x2 la position x de d'arrivé de la pièce
-	 * @param	y2 la position y de d'arrivé de la pièce
-	 */
-	public void	checkMove(int x1, int y1, int x2, int y2)
-	{
-		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
-			System.out.println("error: invalid coordinates");
-		else
-		{
-			System.out.print("Trying to move Piece from ");
-			System.out.print((char)(x1 + 97) + "" + (y1 + 1) + " to " + (char)(x2 + 97) + "" + (y2 + 1));
-			System.out.println(" > " + board[y1][x1].movePossible(this, x1, y1, x2, y2));
-		}
-	}
-	
-	/**
 	 * Déplacement d'une pièce sur le plateau
 	 * @param color la couleur du joueur
 	 * @param	x1 la position x de départ de la pièce
@@ -125,30 +109,60 @@ public class ChessBoard
 	{
 		if (isOnBoard(x1, y1) == false || isOnBoard(x2, y2) == false || isEmpty(x1, y1) == true)
 			return false;
+		else if (x1 == x2 && y1 == y2)
+			return false;
 		else if (board[y1][x1].getColor() != color)
 			return false;
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
 		board[y2][x2] = board[y1][x1];
 		board[y1][x1] = null;
+		if (board[y2][x2].getSprite().equals("♔"))
+		{
+			kingX[color] = x2;
+			kingY[color] = y2;
+			// VERIF ECHEC ET MAT 
+		}
 		return true;
 	}
 	
 	/**
 	 * Vérifie les situations d'échecs
+	 * @param color la couleur du joueur
 	 * @return vrai si il y a une situation d'échec
 	 */
-	public boolean	isCheck()
+	private boolean	isCheck(int color)
 	{
+		int x, y = 0;
+		while (y < 8)
+		{
+			x = 0;
+			while (x < 8)
+				if (board[y][x] != null && board[y][x].getColor != color)
+					if (board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
+						return true;
+		}
 		return false;
 	}
 	
 	/**
 	 * Vérifie les situations d'échecs et mat
-	 * @return vrai si il y a une situation d'échec et mat
+	 * @param color la couleur du joueur
+	 * @return 1 si en échec, 2 si échec et mat, 0 sinon
 	 */
-	public boolean	isCheckmate()
+	public int	isCheckmate(int color)
 	{
+		if (isCheck(color) == false)
+			return 0;
+		int x, y = 0;
+		while (y < 8)
+		{
+			x = 0;
+			while (x < 8)
+				if (board[y][x] != null && board[y][x].getColor != color)
+					if (board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
+						return true;
+		}
 		return false;
 	}
 	

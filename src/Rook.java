@@ -30,12 +30,7 @@ public class Rook extends Piece
 	{
 		int dx;
 		int dy;
-	    if(x1==x2 && y1==y2) return false;//deplacement nul bloquée
-		if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0)//hors limites
-			return false; 
-		else if (x1 > 7 || x2 > 7 || y1 > 7 || y2 > 7)//hors limites
-			return false;
-			
+		
 		dx=Math.abs(x2 - x1);
 		dy=Math.abs(y2 - y1);
 		

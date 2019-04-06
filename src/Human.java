@@ -6,7 +6,7 @@ import java.io.IOException;
  * Classe Human
  * 
  * @author	Mathis Dankou
- * @version	02/04/2019
+ * @version	06/04/2019
  */
  
 public class Human extends Player

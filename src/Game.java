@@ -2,7 +2,7 @@
  * Classe au coeur de la logique du jeu
  *
  * @author	Mathis Dankou, Adrien Soursou
- * @version	27/03/2019
+ * @version	06/04/2019
  */
 
 public class Game
@@ -101,7 +101,7 @@ public class Game
 	/**
 	 * S'occupe de la logique du jeu, en faisant jouer les adversaires tour à tour
 	 */
-	public void run()//Rajouter des paramètres
+	public void run()
 	{ 
 		long	t0, dt;
 		int		turn = 1, frame, ret;

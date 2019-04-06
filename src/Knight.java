@@ -30,9 +30,6 @@ public class Knight extends Piece
 		int dx = Math.abs(x2 - x1);
 		int dy = Math.abs(y2 - y1);
 		
-		if(x1 == x2 && y1==y2) // au cas où
-			return false;
-		
 		if(dx > 2 || dy > 2) return false;
 		if((dx == 1 && dy == 2) || (dx == 2 && dy == 1))
 		{
