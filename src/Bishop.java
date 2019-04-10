@@ -9,6 +9,7 @@ public class Bishop extends Piece
 {
 	/**
 	 * Constructeur du fou
+	 * @param color la couleur de la pièce
 	 */
 	public Bishop(int color)
 	{

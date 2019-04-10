@@ -1,9 +1,23 @@
-
+/**
+ * Classe représentant l'historique des coups
+ *
+ * @author	Franck Naze
+ * @version	03/04/2019
+ */
 public class Event
 {
 	private int x1,y1,x2,y2;
 	private Piece EatenPiece;
 	
+	/**
+	* Constructeur de l'historique des coups avec 
+	* la case de départ,d'arrivée,et la pièce mangée
+	* @param	x1 la position x de départ de la pièce
+	* @param	y1 la position y de départ de la pièce
+	* @param	x2 la position x d'arrivé de la pièce
+	* @param	y2 la position y d'arrivé de la pièce
+	* @param	EatenPiece la pièce mangée
+	*/
 	public Event(int x1,int y1,int x2,int y2,Piece EatenPiece)
 	{
 		this.x1 = x1;
@@ -13,28 +27,46 @@ public class Event
 		this.EatenPiece=EatenPiece;
 	}
 	
-	public int getStartingX()
+	/**
+	 * Cette méthode retourne l'abscisse de la case de départ
+	 * @return	this.x1 l'abscisse de la case de départ
+	 */
+	public int getStartingx()
 	{
-		return x1;
+		return this.x1;
 	}
 	
-	public int getStartingY()
+	/**
+	 * Cette méthode retourne l'ordonnée de la case de départ
+	 * @return	this.y1 l'ordonnée de la case de départ
+	 */
+	public int getStartingy()
 	{
-		return y1;
+		return this.y1;
 	}
 	
-	public int getFinalX()
+	/**
+	 * Cette méthode retourne l'abscisse de la case d'arrivée
+	 * @return	this.x2 l'abscisse de la case d'arrivée
+	 */
+	public int getFinalx()
 	{
-		return x2;
+		return this.x2;
 	}
-	
-	public int getFinalY()
+	/**
+	 * Cette méthode retourne l'ordonnée de la case d'arrivée
+	 * @return	this.y2 l'ordonnée de la case d'arrivée
+	 */
+	public int getFinaly()
 	{
-		return y2;
+		return this.y2;
 	}
-	
+	/**
+	* Permet de récupérer le type de Piece mangée
+	* @return le type de pièce mangée 
+	*/
 	Piece getEatenPiece()
 	{
-		return EatenPiece;
+		return this.EatenPiece;
 	}
 }

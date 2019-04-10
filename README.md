@@ -6,16 +6,15 @@
 - Naze Franck
 - Soursou Adrien
 ## Objectifs
-- [ ] Base du projet
+- [x] Base du projet
 	- jeu d'échec fonctionnelle avec une interface textuelle 
 - [ ] Détection des situations d'échec et d'échec et mat
-- [ ] Promotion des pions
-- [ ] Commande Undo
-- [ ] (Optionnel) Affichage du plateau
-- [ ] (Optionnel) Ajout d'un timer
+- [x] Promotion des pions
+- [x] Commande Undo
+- [x] (Optionnel) Affichage du plateau
+- [x] (Optionnel) Ajout d'un timer
 - [ ] (En plus) Option Dragon !
 - [ ] (En plus) Option mode Blitz !
-## Répartition des taches
 
 ## Manuel Utilisateur
 ### Lancement :
