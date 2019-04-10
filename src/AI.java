@@ -25,7 +25,7 @@ public class AI extends Player
 	
 	public String getPromotion()
 	{
-		int n = Math.random() * 4;
+		int n = (int)(Math.random() * 4);
 		if (n == 0) return "rook";
 		else if (n == 1) return "knight";
 		else if (n == 2) return "bishop";

@@ -256,10 +256,10 @@ public class ChessBoard
 		if(stack.empty() == false)
 		{
 			e = stack.pop();
-			int startx = e.getStartingX(); 
-			int starty = e.getStartingY();
-			int finalx = e.getFinalX();
-			int finaly = e.getFinalY();
+			int startx = e.getStartingx(); 
+			int starty = e.getStartingy();
+			int finalx = e.getFinalx();
+			int finaly = e.getFinaly();
 			board[starty][startx] = board[finaly][finalx];
 			board[finaly][finalx] = e.getEatenPiece();
 			
