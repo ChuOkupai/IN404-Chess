@@ -163,39 +163,45 @@ public class ChessBoard
 	/**
 	 * Vérifie les situations d'échecs et mat
 	 * @param color la couleur du joueur
-	 * @return 1 si en échec, 2 si échec et mat, 0 sinon
+	 * @return vrai si échec et mat
 	 */
-	public int	isCheckmate(int color)
+	public boolean	isCheckmate(int color)
 	{
-		int flag = 0;
 		if (isCheck(color) == false)
-			return 0;
-		int x = kingX[color] - 1, y = kingY[color] - 1, i = -1, j = 1;
-		//Verifie si le roi peut se déplecer
-		while(j != -1  && i != 2 && flag != 1)
+			return false;
+		int x = kingX[color] - 1, y = kingY[color] - 1, i = 0, j = 0;
+		
+		while (i < 3)
 		{
-			if(doMove(color, x, y, x+i, y+j))
+			while (j < 3)
 			{
-				if(isCheck(color)) undo();
-				else flag = 1;
+				if (i != 2 && j != 2)
+					if (board[x][y].movePossible(this, x, y, x + i, y + j) == true)
+						return true;
+				j++;
 			}
 			i++;
-			if(j!= 1  && i != 2) j = -1; i = -1;
 		}
-		
-		if(doMove(color, x, y, x-1, y))
-			if(isCheck(color)) undo();
-			else flag = 1;
-		
-		if(doMove(color, x, y, x+1, y))
-			if(isCheck(color)) undo();
-			else flag = 1;
-			
-		if(flag == 1) return 2;
-		//Verie que la piece quit fait le mat est bouffable
-		//pour chaque piece dispo de couleur diff vérifier si elle peut bouffer l'assaillant
-		
-		return 0;
+		i = 0;
+		while (i < 8)
+		{
+			j = 0;
+			while (j < 8)
+			{
+				if (board[y][x].getColor() == color)
+				{
+					if (doMove(color, kingX[color], kingY[color], i, j) == true)
+					{
+						undo();
+						return false;
+					}
+				}
+				if (board[y][x].movePossible(this, kingX[color], kingY[color], x, y) == true)
+				j++;
+			}
+			i++;
+		}
+		return true;
 	}
 	
 	/**

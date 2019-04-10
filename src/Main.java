@@ -16,7 +16,7 @@ enum Main
 	public void run(String[] args)
 	{
 		// bank, maxSeconds, maxTurns
-		Game game = new Game(120, 60, 0);
+		Game game = new Game(120, 0, 0);
 		game.run();
 	}
 	
