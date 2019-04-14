@@ -2,7 +2,7 @@
  * Classe au coeur de la logique du jeu
  *
  * @author	Mathis Dankou, Adrien Soursou
- * @version	06/04/2019
+ * @version	14/04/2019
  */
 
 public class Game
@@ -192,7 +192,7 @@ public class Game
 				if (ret == 1) return;
 				else if (ret == 2 || ret == -1 || ret == 3)
 				{
-					System.out.print("\r\033[K\033[1A\r\033[4C\033[K"); // Reset du reader
+					System.out.print("\033[12;5H\033[J"); // Reset du reader
 					if (ret == 3)
 					{
 						turn -= 2;

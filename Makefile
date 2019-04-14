@@ -17,7 +17,7 @@ Chess.jar: doc build
 	jar cfe $@ bin.Main bin/*.class src/*.java $<
 
 run: Chess.jar
-	java -jar $<
+	java -cp $< -cp bin Main
 
 # Temporaire pour compiler rapidement
 debug: src/Main.java
