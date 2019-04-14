@@ -9,6 +9,7 @@ public class Game
 {
 	private ChessBoard chessb;
 	private int bank, color, turn, maxSeconds, maxTurns;
+	private boolean j1, j2;
 	private Player[] player;
 	private String mode;
 	
@@ -17,8 +18,10 @@ public class Game
 	 * @param bank le nombre maximum de secondes par joueur, infini si <= 0
 	 * @param maxSeconds le nombre maximum de secondes par tour, infini si <= 0
 	 * @param maxTurns le nombre maximum de tours, infini si <= 0
+	 * @param le joueur 1, true indique un joueur humain et false une IA
+	 * @param le joueur 2
 	 */
-	public Game(int bank, int maxSeconds, int maxTurns)
+	public Game(int bank, int maxSeconds, int maxTurns, boolean j1, boolean j2)
 	{
 		chessb = new ChessBoard();
 		color = 1;
@@ -27,9 +30,9 @@ public class Game
 		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
 		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
 		player = new Player[2];
-		player[0] = new Human(this.bank, 0);
-		player[1] = new Human(this.bank, 1);
-		mode = (bank > 0 && maxSeconds > 0 && maxSeconds < 46) ? "Blitz" : "Normal";
+		player[0] = (j2) ? new Human(this.bank, 0) : new AI(this.bank, 0);
+		player[1] = (j1) ? new Human(this.bank, 1) : new AI(this.bank, 1);
+		mode = (bank > 0 || maxSeconds > 0) ? "Blitz" : "Normal";
 	}
 	
 	/**
@@ -53,6 +56,13 @@ public class Game
 	 */
 	private void renderSeconds(int s)
 	{
+		int m = s / 60;
+		s %= 60;
+		if (m > 0)
+		{
+			System.out.format("%dm %02ds\n", m, s);
+			return;
+		}
 		if (s < 6) System.out.print("\033[38;2;255;55;55m"); // rouge
 		else if (s < 11) System.out.print("\033[38;2;255;128;55m"); // orange
 		else if (s < 16) System.out.print("\033[38;2;255;255;30m"); // jaune
@@ -100,7 +110,7 @@ public class Game
 		String buf = null;
 		System.out.print("\033[s\033[1;1H");
 		chessb.render();
-		System.out.print("\033[14H  Choose a promotion: rook, knight, bishop or queen\033[12;5H\033[K");
+		System.out.print("\033[14H  Choose a promotion: rook, knight, bishop or queen\033[u");
 		while (buf == null)
 		{
 			buf = player[color].getCom();
@@ -111,12 +121,8 @@ public class Game
 			else if (buf.equals("bishop")) chessb.promote(new Bishop(color), x, y);
 			else if (buf.equals("queen")) chessb.promote(new Queen(color), x, y);
 			else
-			{
 				buf = null;
-				System.out.print("\033[12;5H\033[K");
-			}
 		}
-		System.out.print("\033[14H\033[K\033[13H\033[u");
 	}
 	
 	/**
@@ -180,30 +186,32 @@ public class Game
 					render(turn, frame++); // Affiche et prépare de la seconde suivante
 					if (dt >= maxSeconds)
 					{
-						if (bank != 0 && player[color].getBank() == 0)
+						if (bank == 0 || (bank != 0 && player[color].getBank() == 0))
 						{
-							System.out.println();
+							System.out.println("\033[12;5H\033[JNo more time left!\n");
 							return;
 						}
 						player[color].decreaseBank();
 					}
 				}
 				ret = parseCom(player[color].getCom());
-				if (ret == 1) return;
-				else if (ret == 2 || ret == -1 || ret == 3)
+				if (ret == 1)
 				{
-					System.out.print("\033[12;5H\033[J"); // Reset du reader
-					if (ret == 3)
-					{
-						turn -= 2;
-						color = 1 - color;
-						break;
-					}
-					else if (ret == 2) break;
+					System.out.print((color == 0) ? "Black" : "White");
+					System.out.println("'s have conceded\n");
+					return;
+				}
+				else if (ret == 2)
+					break;
+				else if (ret == 3)
+				{
+					turn -= 2;
+					color = 1 - color;
+					break;
 				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
-			}	while ((maxSeconds == 0 || dt < maxSeconds) || bank != 0);
-			if (color == 0) turn++;// Si c'était au tour du joueur 2
+			}	while (maxSeconds == 0 || bank != 0);
+			if (color == 0) turn++; // Si c'était au tour du joueur 2
 			color = 1 - color;
 		}
 	}

@@ -19,7 +19,6 @@ public class AI extends Player
 		while (x1 == (x2 = (char)(Math.random() * 8 + 97)));
 		y1 = (char)(Math.random() * 8 + 49);
 		while (y1 == (y2 = (char)(Math.random() * 8 + 49)));
-		System.out.println();
 		return "" + x1 + y1 + x2 + y2;
 	}
 	
