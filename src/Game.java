@@ -78,28 +78,28 @@ public class Game
 	{
 		System.out.print("\033[s");
 		if (turn == 1 && frame % 5 == 0) // coordonnées random
-			System.out.print("\033[3;31H" + randomCoor());
-		System.out.print("\033[5H");
+			System.out.print("\033[4;33H" + randomCoor());
+		System.out.print("\033[6H");
 		if (frame == 0) // Initialisation lors de la première frame
 		{
-			if (mode != null) System.out.println("\033[25CMode: " + mode);
-			System.out.println("\033[25C" + ((color % 2 == 0) ? "Black" : "White") + "'s turn");
-			System.out.print("\033[25CTurn: " + turn);
+			if (mode != null) System.out.println("\033[27CMode: " + mode);
+			System.out.println("\033[27C" + ((color % 2 == 0) ? "Black" : "White") + "'s turn");
+			System.out.print("\033[27CTurn: " + turn);
 			if (maxTurns > 0) System.out.print(" of " + maxTurns);
 			System.out.println();
 		}
 		else System.out.print("\033[" + ((mode != null) ? 3 : 2) + "B");
 		if (bank > 0)
 		{
-			System.out.print((frame == 0) ? "\033[25CBank: " : "\033[31C\033[K");
+			System.out.print((frame == 0) ? "\033[27CBank: " : "\033[33C\033[K");
 			renderSeconds(player[color].getBank());
 		}
 		if (maxSeconds > 0)
 		{
-			System.out.print((frame == 0) ? "\033[25CTime left: " : "\033[36C\033[K");
+			System.out.print((frame == 0) ? "\033[27CTime left: " : "\033[38C\033[K");
 			renderSeconds(maxSeconds - frame);
 		}
-		System.out.print((turn == 1 && frame == 0 && color == 1) ? "\033[12H  > " : "\033[u");
+		System.out.print((turn == 1 && frame == 0 && color == 1) ? "\033[13H    > " : "\033[u");
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class Game
 		String buf = null;
 		System.out.print("\033[s\033[1;1H");
 		chessb.render();
-		System.out.print("\033[14H  Choose a promotion: rook, knight, bishop or queen\033[u");
+		System.out.print("\033[15H  Choose a promotion: rook, knight, bishop or queen\033[u");
 		while (buf == null)
 		{
 			buf = player[color].getCom();
@@ -176,7 +176,7 @@ public class Game
 			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
 			chessb.render();
 			if (turn == 1) // Information pour le premier tour
-				System.out.print("\033[2;25HInput format: [a-h][1-8][a-h][1-8]\n\033[24Cex: > ");
+				System.out.print("\033[3;27HInput format: [a-h][1-8][a-h][1-8]\n\033[26Cex: > ");
 			System.out.print("\033[u"); // restaure la position du curseur
 			do
 			{
@@ -188,7 +188,7 @@ public class Game
 					{
 						if (bank == 0 || (bank != 0 && player[color].getBank() == 0))
 						{
-							System.out.println("\033[12;5H\033[JNo more time left!\n");
+							System.out.println("\033[13;5H\033[JNo more time left!\n");
 							return;
 						}
 						player[color].decreaseBank();

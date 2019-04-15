@@ -212,10 +212,10 @@ public class ChessBoard
 		String	buf;
 		int		color = 1, x, y;
 		
-		System.out.println(bbrown + "    a b c d e f g h   " + reset);
+		System.out.println("\n  " + bbrown + "    a b c d e f g h   " + reset);
 		for (y = 7; y >= 0; y--)
 		{
-			System.out.print(bbrown + " " + (y + 1) + " " + reset);
+			System.out.print("  " + bbrown + " " + (y + 1) + " " + reset);
 			for (x = 0; x < 8; x++)
 			{
 				System.out.print((color == 0) ? bblack : bwhite);
@@ -235,7 +235,7 @@ public class ChessBoard
 			System.out.println(reset + bbrown + " " + (y + 1) + " " + reset);
 			color = 1 - color;
 		}
-		System.out.println(bbrown + "    a b c d e f g h   " + reset);
+		System.out.println("  " + bbrown + "    a b c d e f g h   " + reset);
 	}
 	
 	/**

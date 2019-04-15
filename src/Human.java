@@ -29,7 +29,7 @@ public class Human extends Player
 				com = reader.readLine();
 				if (com.length() < 4)
 					com = "    ";
-				System.out.print("\033[12;5H\033[J"); // Reset du reader
+				System.out.print("\033[13;7H\033[J"); // Reset du reader
 			}
 		}
 		catch(IOException e){ e.printStackTrace(); }
