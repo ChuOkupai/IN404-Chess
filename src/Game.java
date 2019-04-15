@@ -186,7 +186,7 @@ public class Game
 					render(turn, frame++); // Affiche et prépare de la seconde suivante
 					if (dt >= maxSeconds)
 					{
-						if (bank == 0 || (bank != 0 && player[color].getBank() == 0))
+						if (bank != 0 && player[color].getBank() == 0)
 						{
 							System.out.println("\033[13;5H\033[JNo more time left!\n");
 							return;
