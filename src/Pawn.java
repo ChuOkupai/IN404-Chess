@@ -2,7 +2,7 @@
  * Classe du Pion(Exemple)
  *
  * @author	Mathis Dankou
- * @version	15/03/2019
+ * @version	15/04/2019
  */
 
 public class Pawn extends Piece
@@ -37,7 +37,7 @@ public class Pawn extends Piece
 		if(dy == 2)
 		{
 			if(dx == 0 && (y1 ==  1 || y1 == 6)) //ou verif de la pos de base
-				if(b.isEmpty(x2, y2))
+				if(b.isEmpty(x2, y2) && b.isEmpty(x2, y1+dy-1))
 					return true;
 		}
 		if(dy == 1)
