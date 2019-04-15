@@ -152,7 +152,7 @@ public class Game
 		
 		if (chessb.doMove(color,x1,y1,x2,y2) == true)
 		{
-			if (chessb.isPawn(x2, y2) && (color == 0 && y2 == 0) || (color == 1 && y2 == 7))
+			if (chessb.isPawn(x2, y2) == true && ((color == 0 && y2 == 0) || (color == 1 && y2 == 7)))
 				promote(x2, y2);
 			return 2;
 		}
