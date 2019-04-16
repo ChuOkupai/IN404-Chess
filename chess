@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Exécution du jeu plus simplement
+# ex : > ./chess -b 120
+
+make Chess.jar | egrep -hiv 'nothing to be done|up to date'
+java -cp Chess.jar -cp bin Main $@

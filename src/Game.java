@@ -167,17 +167,23 @@ public class Game
 		long	t0, dt;
 		int		frame, ret;
 		
+		ret = 0;
 		System.out.print("\033c"); // efface l'écran
-		while (maxTurns == 0 || turn <= maxTurns)
+		while (ret != 1)
 		{
 			t0 = System.currentTimeMillis();
 			dt = 0;
 			frame = 0;
 			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
-			chessb.render();
+			chessb.render();	
 			if (turn == 1) // Information pour le premier tour
 				System.out.print("\033[3;27HInput format: [a-h][1-8][a-h][1-8]\n\033[26Cex: > ");
 			System.out.print("\033[u"); // restaure la position du curseur
+			if (maxTurns > 0 && turn > maxTurns)
+			{
+				System.out.println("\033[13;7H\033[JNo more turns left!");
+				break;
+			}
 			do
 			{
 				if (frame == dt) // si une nouvelle frame doit être rendue
@@ -188,8 +194,9 @@ public class Game
 					{
 						if ((bank == 0 && maxSeconds > 0) || (bank != 0 && player[color].getBank() == 0))
 						{
-							System.out.println("\033[13;7H\033[JNo more time left!\n");
-							return;
+							System.out.println("\033[13;7H\033[JNo more time left!");
+							ret = 1;
+							break;
 						}
 						player[color].decreaseBank();
 					}
@@ -198,21 +205,18 @@ public class Game
 				if (ret == 1)
 				{
 					System.out.print((color == 0) ? "Black" : "White");
-					System.out.println("'s have conceded\n");
-					return;
+					System.out.println("'s have conceded");
 				}
-				else if (ret == 2)
-					break;
 				else if (ret == 3)
 				{
 					turn -= 2;
 					color = 1 - color;
-					break;
 				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
-			}	while (true);
+			}	while (ret < 1);
 			if (color == 0) turn++; // Si c'était au tour du joueur 2
 			color = 1 - color;
 		}
+		System.out.println();
 	}
 }

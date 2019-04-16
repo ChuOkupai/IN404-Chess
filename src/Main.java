@@ -16,11 +16,13 @@ public class Main
 	public static void main(String[] args)
 	{
 		int b = 0, s = 0, t = 0;
-		boolean j1 = true, j2 = false, err = false;
+		boolean j1 = true, j2 = false, err = false, help = false;
 		
-		for (int i = 0; err == false && i < args.length; i++)
+		for (int i = 0; i < args.length && err == false && help == false; i++)
 		{
-			if (args[i].charAt(0) == '-' && i + 1 < args.length)
+			if (args[i].equals("--help"))
+				help = true;
+			else if (args[i].charAt(0) == '-' && i + 1 < args.length)
 			{
 				if (args[i].equals("-b"))
 					b = Integer.parseInt(args[i + 1]);
@@ -49,14 +51,18 @@ public class Main
 			}
 			else err = true;
 		}
-		if (err == true || (j1 == false && j2 == false))
+		if (help == true)
 		{
-			System.out.println("error: Invalid option\n\nUsage:");
-			System.out.println("      -b (integer), set a time bank for each player");
+			System.out.println("Usage:\n\n      -b (integer), set a time bank for each player");
 			System.out.println("      -s (integer), set a time limit for each turn");
 			System.out.println("      -t (integer), set a limit of turns");
 			System.out.println("      -[j1|j2] (ai|human), choose if a player is controlled by an artificial intelligence\n");
 			System.out.println("Default is: -b 0 -s 0 -t 0 -j1 human -j2 ai");
+			return;
+		}
+		else if (err == true || (j1 == false && j2 == false)) // match d'IAs non compatible pour le moment
+		{
+			System.out.println("error: Invalid option\nTry './chess --help' for more information.");
 			return;
 		}
 		Game game = new Game(b, s, t, j1, j2);
