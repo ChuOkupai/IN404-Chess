@@ -186,9 +186,9 @@ public class Game
 					render(turn, frame++); // Affiche et prépare de la seconde suivante
 					if (dt >= maxSeconds)
 					{
-						if (bank != 0 && player[color].getBank() == 0)
+						if ((bank == 0 && maxSeconds > 0) || (bank != 0 && player[color].getBank() == 0))
 						{
-							System.out.println("\033[13;5H\033[JNo more time left!\n");
+							System.out.println("\033[13;7H\033[JNo more time left!\n");
 							return;
 						}
 						player[color].decreaseBank();
@@ -210,7 +210,7 @@ public class Game
 					break;
 				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
-			}	while (maxSeconds == 0 || bank != 0);
+			}	while (true);
 			if (color == 0) turn++; // Si c'était au tour du joueur 2
 			color = 1 - color;
 		}

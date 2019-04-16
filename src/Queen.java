@@ -34,10 +34,7 @@ public class Queen extends Piece
 		if(x2 < 0 || x2 > 7 || y2 < 0 || y2 > 7) //si c'est en dehors
 			return false;
 		if(x1 == x2 && y1==y2) // au cas où
-			return false;	
-			
-		if(this.getColor() == 0){dx = -dx; dy = -dy;} //les noirs en haut
-		return true;
+			return false;
 		
 		dx=Math.abs(x2 - x1);
 		dy=Math.abs(y2 - y1);
@@ -55,7 +52,7 @@ public class Queen extends Piece
 							x1+=1; y1+=1;
 							if((x1==x2)&&(y1==y2))
 							{
-							if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 							else return true;
 							}
 							if(b.isEmpty(x1,y1)==false)return false;			
@@ -66,7 +63,7 @@ public class Queen extends Piece
 							x1+=1; y1-=1;
 							if((x1==x2)&&(y1==y2))
 							{
-							if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 							else return true;
 							}
 							if(b.isEmpty(x1,y1)==false)return false;
@@ -79,7 +76,7 @@ public class Queen extends Piece
 							x1-=1; y1+=1;
 							if((x1==x2)&&(y1==y2))
 							{
-							if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 							else return true;
 							}
 							if(b.isEmpty(x1,y1)==false)return false;
@@ -89,7 +86,7 @@ public class Queen extends Piece
 							x1-=1; y1-=1;
 							if((x1==x2)&&(y1==y2))
 							{
-							if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 							else return true;
 							}
 							if(b.isEmpty(x1,y1)==false)return false;
@@ -107,7 +104,7 @@ public class Queen extends Piece
 						x1+=1;
 						if((x1==x2))
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 						return true;
 					    }
@@ -118,7 +115,7 @@ public class Queen extends Piece
 						x1-=1;
 						if(x1==x2)
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 						return true;
 					    }
@@ -135,7 +132,7 @@ public class Queen extends Piece
 					 y1+=1;
 						if((y1==y2))
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 						return true;
 					    }
@@ -145,7 +142,7 @@ public class Queen extends Piece
 						y1-=1;
 						if((y1==y2))
 						{
-						if (b.isEmpty(x2, y2) == false && b.getPiece(x2, y2).getColor() == this.getColor()) return false;
+						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
 						else
 					    return true;
 					    }

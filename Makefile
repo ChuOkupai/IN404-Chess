@@ -1,7 +1,6 @@
-# Temporaire pour remplacer la cible all
-all-debug: debug
+CLASSES = $(patsubst src/%.java,bin/%.class,$(wildcard src/*.java))
 
-all: doc Chess.jar run
+all: Chess.jar run
 
 clean:
 	rm -rf bin doc *.jar
@@ -9,18 +8,12 @@ clean:
 doc:
 	javadoc -charset UTF-8 -d doc src/*.java
 
-build: src/*.java
+$(CLASSES): src/*.java
 	mkdir -p bin
 	javac $^ -d bin
 
-Chess.jar: doc build
+Chess.jar: doc $(CLASSES)
 	jar cfe $@ bin.Main bin/*.class src/*.java $<
 
 run: Chess.jar
 	java -cp $< -cp bin Main
-
-# Temporaire pour compiler rapidement
-debug: src/Main.java
-	mkdir -p bin
-	javac -sourcepath src -d bin $<
-	java -cp bin Main
