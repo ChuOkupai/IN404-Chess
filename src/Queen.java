@@ -1,7 +1,7 @@
 /*
  * Classe de la Reine
  *
- * @author	Paul-Victor Chabé
+ * @author	Paul-Victor Chabé, Mathis Dankou
  * @version	21/03/2019
  */
 public class Queen extends Piece
@@ -26,134 +26,26 @@ public class Queen extends Piece
 	@Override
 	public boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2)
 	{
+		if(b.getPieceColor(x2, y2) == this.getColor()) return false;
+		
 		int dx = x2 - x1; 
 		int dy = y2 - y1;
 		
-		if(x1 < 0 || x1 > 7 || y1 < 0 || y1 > 7)//si l'utilisateur est un utilisateur
+		if(!((Math.abs(x2 - x1) == 0 && Math.abs(y2 - y1) !=0) || (Math.abs(x2 - x1) != 0 && dy ==0) || (Math.abs(x2 - x1) == Math.abs(y2 - y1))))
 			return false;
-		if(x2 < 0 || x2 > 7 || y2 < 0 || y2 > 7) //si c'est en dehors
-			return false;
-		if(x1 == x2 && y1==y2) // au cas où
-			return false;
+		if(dx < 0) dx = -1;
+		else if (dx == 0) dx = 0;
+		else dx = 1;
+		if(dy < 0) dy = -1;
+		else if (dy == 0) dy = 0;
+		else dy = 1;
 		
-		dx=Math.abs(x2 - x1);
-		dy=Math.abs(y2 - y1);
-		
-		while(x1 != x2 || y1 != y2)
+		while(x1 != (x2-dx) || y1 != (y2-dy))
 		{
-			if((Math.abs(x2 - x1)== Math.abs(y2 - y1)))
-			{
-				while(x1 != x2 && y1 != y2)
-				{
-					if(x1<x2)
-					{
-						if(y1<y2)//Déplacement en Haut/Droite
-						{
-							x1+=1; y1+=1;
-							if((x1==x2)&&(y1==y2))
-							{
-							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-							else return true;
-							}
-							if(b.isEmpty(x1,y1)==false)return false;			
-						}
-						else//Déplacement en Bas/Droite
-						{
-						
-							x1+=1; y1-=1;
-							if((x1==x2)&&(y1==y2))
-							{
-							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-							else return true;
-							}
-							if(b.isEmpty(x1,y1)==false)return false;
-						}
-					}
-					else
-					{
-						if(y1<y2)//Déplacement en Haut/Gauche
-						{
-							x1-=1; y1+=1;
-							if((x1==x2)&&(y1==y2))
-							{
-							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-							else return true;
-							}
-							if(b.isEmpty(x1,y1)==false)return false;
-						}
-						else//Déplacement en Bas/Gauche
-						{
-							x1-=1; y1-=1;
-							if((x1==x2)&&(y1==y2))
-							{
-							if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-							else return true;
-							}
-							if(b.isEmpty(x1,y1)==false)return false;
-						}
-					}	
-				}
-			}
-			
-			if(dx!=0)
-			{
-				while(x1 != x2)
-				{
-				    if(x1<x2)//Vers la droite
-				    {
-						x1+=1;
-						if((x1==x2))
-						{
-						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-						else
-						return true;
-					    }
-					    if(b.isEmpty(x1,y1)==false)return false;
-					}
-					if(x1>x2)//Vers la gauche
-					{
-						x1-=1;
-						if(x1==x2)
-						{
-						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-						else
-						return true;
-					    }
-					    if(b.isEmpty(x1,y1)==false)return false;
-					}
-				  }
-			}
-			if(dy!=0)
-			{
-				while(y1 != y2)
-				{
-					if(y1<y2)//Vers le haut
-					{
-					 y1+=1;
-						if((y1==y2))
-						{
-						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-						else
-						return true;
-					    }
-					    if(b.isEmpty(x1,y1)==false)return false;
-					}
-					else//Vers le Bas
-						y1-=1;
-						if((y1==y2))
-						{
-						if (b.isEmpty(x2, y2) == false && b.getPieceColor(x2, y2) == this.getColor()) return false;
-						else
-					    return true;
-					    }
-					    if(b.isEmpty(x1,y1)==false)return false;
-					}
-				}
-			}
-			
-		return false;
+			x1+=dx;
+			y1+=dy;
+			if(b.isEmpty(x1,y1) == false) return false;
+		}
+		return true;
 	}
-}	
-			
-		
-	
+}
