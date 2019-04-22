@@ -15,5 +15,8 @@ $(CLASSES): src/*.java
 Chess.jar: doc $(CLASSES)
 	jar cfe $@ bin.Main bin/*.class src/*.java $<
 
+edit:
+	vim -p Makefile src/*.java
+
 run: Chess.jar
 	java -cp $< -cp bin Main
