@@ -60,7 +60,7 @@ public class Main
 			System.out.println("Default is: -b 0 -s 0 -t 0 -j1 human -j2 ai");
 			return;
 		}
-		else if (err == true || (j1 == false && j2 == false)) // match d'IAs non compatible pour le moment
+		else if (err == true)
 		{
 			System.out.println("error: Invalid option\nTry './chess --help' for more information.");
 			return;

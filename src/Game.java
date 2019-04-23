@@ -24,14 +24,21 @@ public class Game
 	public Game(int bank, int maxSeconds, int maxTurns, boolean j1, boolean j2)
 	{
 		chessb = new ChessBoard();
-		color = 1;
-		this.bank = (bank < 0) ? 0 : bank;
-		this.turn = 1;
-		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
-		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
 		player = new Player[2];
 		player[0] = (j2) ? new Human(this.bank, 0) : new AI(this.bank, 0);
 		player[1] = (j1) ? new Human(this.bank, 1) : new AI(this.bank, 1);
+		this.j1 = j1;
+		this.j2 = j2;
+		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
+		if (! (j1 || j2))
+		{
+			mode = "\033[38;2;84;194;221mAI battle\033[0m";
+			this.bank = 0;
+			this.maxSeconds = 0;
+			return;
+		}
+		this.bank = (bank < 0) ? 0 : bank;
+		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
 		mode = (bank > 0 || maxSeconds > 0) ? "Blitz" : "Normal";
 	}
 	
@@ -153,6 +160,20 @@ public class Game
 	}
 	
 	/**
+	 * Simule un tour de l'IA avec un faux délai
+	 **/
+	private void aiThinking()
+	{
+		long t0, dt
+		double tmax;
+		t0 = System.currentTimeMillis();
+		dt = 0;
+		tmax = 0.5 + Math.random();
+		while (dt < tmax)
+			dt = (System.currentTimeMillis() - t0) / 1000;
+	}
+	
+	/**
 	 * Interprète les commandes envoyées par un des joueurs
 	 * @return int -1 si invalide, 0 si le buffer n'est pas prêt, 1 si "exit", 2 si instruction de jeu seulement, 3 si undo
 	 **/
@@ -179,6 +200,7 @@ public class Game
 		
 		if (chessb.doMove(color,x1,y1,x2,y2) == true)
 		{
+			if (! (j1 || j2)) aiThinking(); // délai si 2 IAs jouent
 			if (chessb.isPawn(x2, y2) == true && ((color == 0 && y2 == 0) || (color == 1 && y2 == 7)))
 				promote(x2, y2);
 			return 2;
@@ -193,6 +215,7 @@ public class Game
 	{
 		long	t0, dt;
 		int		frame, ret = 0;
+		color = 1; turn = 1;
 		System.out.print("\033c"); // efface l'écran
 		while (ret != 1)
 		{

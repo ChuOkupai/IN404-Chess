@@ -56,8 +56,6 @@ public class ChessBoard
 		board[0][4] = new King(1);
 		kingY[0] = 7; kingX[0] = 4;
 		kingY[1] = 0; kingX[1] = 4;
-		board[6][4] = null; // DEBUG
-		board[1][3] = null; // DEBUG
 	}
 	
 	/**
