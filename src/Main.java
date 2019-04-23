@@ -66,7 +66,7 @@ public class Main
 			}
 			else err = true;
 		}
-		if (help == true)
+		if (help == true) // Aide utilisateur
 		{
 			System.out.println("Usage: .\\chess [OPTION]...\nPlay chess on a Linux terminal!\n");
 			System.out.println("Mandatory arguments to long options are mandatory for short options too.");
@@ -74,12 +74,12 @@ public class Main
 			System.out.println("    -b,     --bank  set a time bank for each player (0 is infinite)");
 			System.out.println("    -s,  --seconds  set a time limit for each turn (0 is infinite)");
 			System.out.println("    -t,    --turns  set a limit of turns (0 is infinite)");
-			System.out.println("    -p1, --player1  choose if the player is controlled by an ai or not (ai or human)\n");
+			System.out.println("    -p1, --player1  choose if the player is controlled by an ai or not (ai or human)");
 			System.out.println("    -p2, --player2  same as player 1\n");
 			System.out.println("Default arguments are: -d normal -b 0 -s 0 -t 0 -p1 human -p2 ai");
 			return;
 		}
-		else if (err == true)
+		else if (err == true) // Argument(s) invalide(s)
 		{
 			System.out.println("error: Invalid option\nTry './chess --help' for more information.");
 			return;
