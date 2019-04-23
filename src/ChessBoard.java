@@ -148,9 +148,11 @@ public class ChessBoard
 		int x = kingX[color], y = kingY[color], i, j;
 		for (i = -1; i < 2; i++)
 			for (j = -1; j < 2; j++)
-				if (i != 0 && j != 0 && isOnBoard(x + i, y + j) == true
-					 && board[y][x].movePossible(this, x, y, x + i, y + j) == true)
-					return false;
+				if (doMove(color, x, y, x + i, y + j) == true)
+				{
+					if (! isCheck(color)) { undo(); return false; } // mouvement possible
+					undo();
+				}
 		return true; // roi bloqué
 	}
 	
@@ -177,19 +179,23 @@ public class ChessBoard
 	 */
 	public boolean	isCheckmate(int color)
 	{
-		if (! isCheck(color) || isStalemated(color))
-			return false;
 		int x, y, i, j;
 		for (y = 0; y < 8; y++)
+		{
 			for (x = 0; x < 8; x++)
-				for (i = 0; i < 8; j++)
+			{
+				if (board[y][x] == null || board[y][x].getColor() != color)
+					continue;
+				for (i = 0; i < 8; i++)
 					for (j = 0; j < 8; j++)
-						if (doMove(color, i, j, x, y))
+						if (doMove(color, x, y, i, j) == true)
 						{
 							if (! isCheck(color)) { undo(); return false; } // mouvement possible
 							undo();
 						}
-		return true;
+			}
+		}
+		return isStalemated(color);
 	}
 	
 	/**

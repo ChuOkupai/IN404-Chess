@@ -149,7 +149,7 @@ public class Game
 		printInfo("Choose a promotion:", "rook, knight, bishop or queen\033[u");
 		do
 		{
-			while ((buf = player[color].getCom()) == null);
+			while ((buf = player[color].getPromotion()) == null);
 			if (buf.equals("rook")) chessb.promote(new Rook(color), x, y);
 			else if (buf.equals("knight")) chessb.promote(new Knight(color), x, y);
 			else if (buf.equals("bishop")) chessb.promote(new Bishop(color), x, y);
@@ -164,13 +164,13 @@ public class Game
 	 **/
 	private void aiThinking()
 	{
-		long t0, dt
-		double tmax;
+		long t0;
+		double dt, tmax;
 		t0 = System.currentTimeMillis();
 		dt = 0;
-		tmax = 0.5 + Math.random();
+		tmax = 0.2 + Math.random() * 0.2;
 		while (dt < tmax)
-			dt = (System.currentTimeMillis() - t0) / 1000;
+			dt = (System.currentTimeMillis() - t0) / 1000.0;
 	}
 	
 	/**
@@ -202,7 +202,10 @@ public class Game
 		{
 			if (! (j1 || j2)) aiThinking(); // délai si 2 IAs jouent
 			if (chessb.isPawn(x2, y2) == true && ((color == 0 && y2 == 0) || (color == 1 && y2 == 7)))
+			{
+				if (! (j1 || j2)) aiThinking(); // délai
 				promote(x2, y2);
+			}
 			return 2;
 		}
 		return -1;
@@ -230,16 +233,13 @@ public class Game
 			if (turn > 1) printInfo(null, null);
 			if (maxTurns > 0 && turn > maxTurns)
 				ret = printInfo("No more turns left!", null);
-			else if (check == true)
+			if (checkmate == true)
 			{
-				if (checkmate == true)
-				{
-					System.out.print("\033[3;27H\033[K" + ((color == 0) ? "Black" : "White") + "'s king can not escape check");
-					ret = 1;
-				}
-				else
-					printInfo("\033[38;2;255;55;55m⚠  CHECK\033[0m", "Your king is in danger!");
+				System.out.print("\033[3;27H\033[K" + ((color == 0) ? "Black" : "White") + "'s king can not escape check");
+				ret = 1;
 			}
+			else if (check == true)
+				printInfo("\033[38;2;255;55;55m⚠  CHECK\033[0m", "Your king is in danger!");
 			System.out.print("\033[u"); // restaure la position du curseur
 			while (ret < 1)
 			{
@@ -261,16 +261,14 @@ public class Game
 				if (ret == 1)
 					printInfo(((color == 0) ? "Black" : "White") + "'s have conceded!", null);
 				else if (ret == 3)
-				{
 					turn--;
-					color = 1 - color;
-					ret = 0;
-					render(0); // réinitialise le rendu
-				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
 			}
-			if (color == 0) turn++; // Si c'était au tour du joueur 2
-			color = 1 - color;
+			if (ret != 3)
+			{
+				if (color == 0) turn++; // Si c'était au tour du joueur 2
+				color = 1 - color;
+			}
 		}
 		System.out.println("\033[15H");
 	}

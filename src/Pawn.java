@@ -29,8 +29,8 @@ public class Pawn extends Piece
 	{
 		int dx = x2 - x1, dy = y2 - y1;
 		
-		if (dy == 0 || Math.abs(dx) + Math.abs(dy) > 2)
-			return false; // déplacement horizontal interdit ou rayon impossible
+		if (dy == 0 || Math.abs(dx) + Math.abs(dy) > 2 || b.getPieceColor(x2, y2) == this.getColor())
+			return false; // déplacement horizontal interdit, rayon impossible ou même couleur
 		if ((this.getColor() == 0 && dy > 0) || (this.getColor() == 1 && dy < 0))
 			return false; // déplacement vertical interdit
 		else if (Math.abs(dy) == 2)
