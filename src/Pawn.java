@@ -31,24 +31,15 @@ public class Pawn extends Piece
 		
 		if (dy == 0 || Math.abs(dx) + Math.abs(dy) > 2)
 			return false; // déplacement horizontal interdit ou rayon impossible
+		if ((this.getColor() == 0 && dy > 0) || (this.getColor() == 1 && dy < 0))
+			return false; // déplacement vertical interdit
 		else if (Math.abs(dy) == 2)
 		{
-			if (this.getColor() == 0)
-			{
-				if (dy > 0) return false; // déplacement vertical interdit
-				else if (y1 != 6 || b.isEmpty(x2, 5) == false)
-					return false;
-			}
-			else
-			{
-				if (dy < 0) return false; // déplacement vertical interdit
-				else if (y1 != 1 || b.isEmpty(x2, 2) == false)
-					return false;
-			}
+			if (this.getColor() == 0 && (y1 != 6 || b.isEmpty(x2, 5) == false))
+				return false;
+			else if (this.getColor() == 1 && (y1 != 1 || b.isEmpty(x2, 2) == false))
+				return false;
 		}
-		if (dx == 0 && b.isEmpty(x2, y2) == false)
-			return false;
-		else if (dx != 0 && b.isEmpty(x2, y2) == true) return false;
-		return true;
+		return ((dx == 0) ^ (b.isEmpty(x2, y2) == false));
 	}
 }

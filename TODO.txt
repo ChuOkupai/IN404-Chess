@@ -1,8 +1,0 @@
- - DEBUG la reine qui peut se déplacer comme un cavalier >>> critique
- - Gérer les échecs / échecs et mat durant la partie (ajout à faire dans Game.java) >>> critique
- - Le manuel d'utilisation est mettre à jour README.md >> important
- - rajouter du délai pour les IAs (notamment pour faire jouer 2 IAs et supprimer la condition dans le main) >> important
- - sauvegarder les situations d'échec dans Event.java > secondaire
-
-Pour exécuter avec des arguments (compile automatiquement si non compilé):
- > ./chess --help

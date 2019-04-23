@@ -18,8 +18,8 @@ public class Game
 	 * @param bank le nombre maximum de secondes par joueur, infini si <= 0
 	 * @param maxSeconds le nombre maximum de secondes par tour, infini si <= 0
 	 * @param maxTurns le nombre maximum de tours, infini si <= 0
-	 * @param le joueur 1, true indique un joueur humain et false une IA
-	 * @param le joueur 2
+	 * @param j1 le joueur 1, true indique un joueur humain et false une IA
+	 * @param j2 le joueur 2
 	 */
 	public Game(int bank, int maxSeconds, int maxTurns, boolean j1, boolean j2)
 	{
