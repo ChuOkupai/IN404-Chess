@@ -79,9 +79,9 @@ public class Main
 			System.out.println("Usage: .\\chess [OPTION]...\nPlay chess on a Linux terminal!\n");
 			System.out.println("Mandatory arguments to long options are mandatory for short options too.");
 			System.out.println("    -d,    --delay  wait an amout of time after ai played (instant, slow, normal or fast)");
-			System.out.println("    -b,     --bank  set a time bank for each player (0 is infinite)");
-			System.out.println("    -s,  --seconds  set a time limit for each turn (0 is infinite)");
-			System.out.println("    -t,    --turns  set a limit of turns (0 is infinite)");
+			System.out.println("    -b,     --bank  set a time bank for each player (0 to disable)");
+			System.out.println("    -s,  --seconds  set a time limit for each turn (0 to disable)");
+			System.out.println("    -t,    --turns  set a limit of turns (0 to disable)");
 			System.out.println("    -p1, --player1  choose if the player is controlled by an ai or not (ai or human)");
 			System.out.println("    -p2, --player2  same as player 1");
 			System.out.println("         --help     display this help and exit");
