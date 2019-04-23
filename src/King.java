@@ -2,7 +2,7 @@
  * Classe du Roi
  *
  * @author	Adrien Soursou
- * @version	27/03/2019
+ * @version	22/04/2019
  */
 
 public class King extends Piece
@@ -31,8 +31,6 @@ public class King extends Piece
 		// Propriétés du Roi
 		if (Math.abs(x2 - x1) > 1 || Math.abs(y2 - y1) > 1)
 			return false; // déplacement supérieur à une case
-		else if (b.getPieceColor(x2, y2) == this.getColor())
-			return false; // case non vide et même couleur
-		return true; // case vide ou couleur différente
+		return (b.getPieceColor(x2, y2) == this.getColor()) ? false : true;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Classe du Pion(Exemple)
+ * Classe du Pion
  *
  * @author	Mathis Dankou
  * @version	15/04/2019
@@ -27,34 +27,28 @@ public class Pawn extends Piece
 	@Override
 	public boolean movePossible(ChessBoard b, int x1, int y1, int x2, int y2)
 	{
-		int dx = x2 - x1; 
-		int dy = y2 - y1;
+		int dx = x2 - x1, dy = y2 - y1;
 		
-		if(this.getColor() == 0){dx = -dx; dy = -dy;} //les noirs en haut
-		
-		if(dy < 0) return false; //pas de retour en arrière
-		if(dy > 2) return false; //ne peut pas aller au dela de dy = 2 
-		if(dy == 2)
+		if (dy == 0 || Math.abs(dx) + Math.abs(dy) > 2)
+			return false; // déplacement horizontal interdit ou rayon impossible
+		else if (Math.abs(dy) == 2)
 		{
-			if(dx == 0 && (y1 ==  1 || y1 == 6)) //ou verif de la pos de base
-				if(b.isEmpty(x2, y2) && b.isEmpty(x2, y1+dy-1))
-					return true;
-		}
-		if(dy == 1)
-		{
-			if(dx == 0)
+			if (this.getColor() == 0)
 			{
-				if(b.isEmpty(x2, y2))
-					return true;
+				if (dy > 0) return false; // déplacement vertical interdit
+				else if (y1 != 6 || b.isEmpty(x2, 5) == false)
+					return false;
 			}
-		    else if(dx == -1 || dx == 1)
+			else
 			{
-				if(!b.isEmpty(x2, y2) && b.getPieceColor(x2, y2) != this.getColor())
-					return true;
+				if (dy < 0) return false; // déplacement vertical interdit
+				else if (y1 != 1 || b.isEmpty(x2, 2) == false)
+					return false;
 			}
-			
 		}
-		
-		return false;
+		if (dx == 0 && b.isEmpty(x2, y2) == false)
+			return false;
+		else if (dx != 0 && b.isEmpty(x2, y2) == true) return false;
+		return true;
 	}
 }

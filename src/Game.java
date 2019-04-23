@@ -2,14 +2,14 @@
  * Classe au coeur de la logique du jeu
  *
  * @author	Mathis Dankou, Adrien Soursou
- * @version	14/04/2019
+ * @version	22/04/2019
  */
 
 public class Game
 {
 	private ChessBoard chessb;
 	private int bank, color, turn, maxSeconds, maxTurns;
-	private boolean j1, j2;
+	private boolean j1, j2, check, checkmate;
 	private Player[] player;
 	private String mode;
 	
@@ -56,11 +56,13 @@ public class Game
 	 */
 	private void renderSeconds(int s)
 	{
-		int m = s / 60;
-		s %= 60;
-		if (m > 0)
+		int m = s / 60, h = m / 60;
+		m %= 60; s %= 60;
+		if (h + m != 0)
 		{
-			System.out.format("%dm %02ds\n", m, s);
+			if (h > 0)
+				System.out.format("%02dh ", h);
+			System.out.format("%02dm %02ds\n", m, s);
 			return;
 		}
 		if (s < 6) System.out.print("\033[38;2;255;55;55m"); // rouge
@@ -70,36 +72,60 @@ public class Game
 	}
 	
 	/**
+	 * Affiche un ou deux messages sur l'écran
+	 * @return int de valeur 1 pour casser une boucle dans la méthode run
+	 **/
+	private int printInfo(String s1, String s2)
+	{
+		System.out.print("\033[3;27H\033[K");
+		if (s1 != null)
+			System.out.print(s1);
+		System.out.print("\033[4;27H\033[K");
+		if (s2 != null)
+			System.out.print(s2);
+		return 1;
+	}
+	
+	/**
 	 * Rendu de l'affichage qui contient les informations de la partie
-	 * @param turn le tour en cours
 	 * @param frame le numéro de la frame à rendre (une par seconde)
 	 */
-	private void render(int turn, int frame)
+	private void render(int frame)
 	{
 		System.out.print("\033[s");
-		if (turn == 1 && frame % 5 == 0) // coordonnées random
-			System.out.print("\033[4;33H" + randomCoor());
-		System.out.print("\033[6H");
-		if (frame == 0) // Initialisation lors de la première frame
+		if (frame == 0)
 		{
-			if (mode != null) System.out.println("\033[27CMode: " + mode);
-			System.out.println("\033[27C" + ((color % 2 == 0) ? "Black" : "White") + "'s turn");
-			System.out.print("\033[27CTurn: " + turn);
+			if (turn == 1)
+			{
+				System.out.print("\033[6;28HMode: " + mode);
+				System.out.print("\n\033[32C's turn\n\033[27CTurn: ");
+				if (bank > 0)
+					System.out.print("\n\033[27CBank: ");
+				if (maxSeconds > 0)
+					System.out.print("\n\033[27CTime left: ");
+				System.out.print("\033[13H    > \033[s");
+				// Information pour le premier tour
+				printInfo("Input format: [a-h][1-8][a-h][1-8]", "ex: > ");
+			}
+			System.out.println("\033[7;28H" + ((color % 2 == 0) ? "Black" : "White"));
+			System.out.print("\033[33C" + turn);
 			if (maxTurns > 0) System.out.print(" of " + maxTurns);
 			System.out.println();
 		}
-		else System.out.print("\033[" + ((mode != null) ? 3 : 2) + "B");
+		else System.out.print("\033[9H");
 		if (bank > 0)
 		{
-			System.out.print((frame == 0) ? "\033[27CBank: " : "\033[33C\033[K");
+			System.out.print("\033[33C\033[K");
 			renderSeconds(player[color].getBank());
 		}
 		if (maxSeconds > 0)
 		{
-			System.out.print((frame == 0) ? "\033[27CTime left: " : "\033[38C\033[K");
+			System.out.print("\033[38C\033[K");
 			renderSeconds(maxSeconds - frame);
 		}
-		System.out.print((turn == 1 && frame == 0 && color == 1) ? "\033[13H    > " : "\033[u");
+		if (turn == 1 && frame % 5 == 0) // coordonnées aléatoires toutes les 5s
+			System.out.print("\033[4;33H" + randomCoor());
+		System.out.print("\033[u");
 	}
 	
 	/**
@@ -107,22 +133,20 @@ public class Game
 	 **/
 	private void promote(int x, int y)
 	{
-		String buf = null;
+		String buf;
 		System.out.print("\033[s\033[1;1H");
 		chessb.render();
-		System.out.print("\033[15H  Choose a promotion: rook, knight, bishop or queen\033[u");
-		while (buf == null)
+		printInfo("Choose a promotion:", "rook, knight, bishop or queen\033[u");
+		do
 		{
-			buf = player[color].getCom();
-			if (buf == null)
-				continue;
+			while ((buf = player[color].getCom()) == null);
 			if (buf.equals("rook")) chessb.promote(new Rook(color), x, y);
 			else if (buf.equals("knight")) chessb.promote(new Knight(color), x, y);
 			else if (buf.equals("bishop")) chessb.promote(new Bishop(color), x, y);
 			else if (buf.equals("queen")) chessb.promote(new Queen(color), x, y);
-			else
-				buf = null;
-		}
+			else buf = null;
+		}	while (buf == null);
+		printInfo(null, "\033[u");
 	}
 	
 	/**
@@ -163,39 +187,45 @@ public class Game
 	 * S'occupe de la logique du jeu, en faisant jouer les adversaires tour à tour
 	 */
 	public void run()
-	{ 
+	{
 		long	t0, dt;
-		int		frame, ret;
-		
-		ret = 0;
+		int		frame, ret = 0;
 		System.out.print("\033c"); // efface l'écran
 		while (ret != 1)
 		{
 			t0 = System.currentTimeMillis();
 			dt = 0;
 			frame = 0;
+			ret = 0;
+			check = chessb.isCheck();
+			checkmate = chessb.isCheckmate();
 			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
-			chessb.render();	
-			if (turn == 1) // Information pour le premier tour
-				System.out.print("\033[3;27HInput format: [a-h][1-8][a-h][1-8]\n\033[26Cex: > ");
+			chessb.render();
+			printInfo(null, null);
 			System.out.print("\033[u"); // restaure la position du curseur
 			if (maxTurns > 0 && turn > maxTurns)
+				ret = printInfo("No more turns left!", null);
+			else if (check == true)
 			{
-				System.out.println("\033[13;7H\033[JNo more turns left!");
-				break;
+				if (checkmate == true)
+				{
+					System.out.print("\033[3;27H\033[K" + ((color == 0) ? "Black" : "White") + "'s king can not escape check");
+					ret = 1;
+				}
+				else
+					printInfo("Check!", null);
 			}
-			do
+			while (ret < 1)
 			{
 				if (frame == dt) // si une nouvelle frame doit être rendue
 				{
 					// Met à jour le rendu et l'entrée utilisateur une fois par seconde
-					render(turn, frame++); // Affiche et prépare de la seconde suivante
+					render(frame++); // Affiche et prépare de la seconde suivante
 					if (dt >= maxSeconds)
 					{
 						if ((bank == 0 && maxSeconds > 0) || (bank != 0 && player[color].getBank() == 0))
 						{
-							System.out.println("\033[13;7H\033[JNo more time left!");
-							ret = 1;
+							ret = printInfo("No more time left!", null);
 							break;
 						}
 						player[color].decreaseBank();
@@ -203,20 +233,17 @@ public class Game
 				}
 				ret = parseCom(player[color].getCom());
 				if (ret == 1)
-				{
-					System.out.print((color == 0) ? "Black" : "White");
-					System.out.println("'s have conceded");
-				}
+					printInfo(((color == 0) ? "Black" : "White") + "'s have conceded!", null);
 				else if (ret == 3)
 				{
 					turn -= 2;
 					color = 1 - color;
 				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
-			}	while (ret < 1);
+			}
 			if (color == 0) turn++; // Si c'était au tour du joueur 2
 			color = 1 - color;
 		}
-		System.out.println();
+		System.out.println("\033[15H");
 	}
 }

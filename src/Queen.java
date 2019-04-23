@@ -2,7 +2,7 @@
  * Classe de la Reine
  *
  * @author	Paul-Victor Chabé, Mathis Dankou
- * @version	21/03/2019
+ * @version	22/04/2019
  */
 public class Queen extends Piece
 {

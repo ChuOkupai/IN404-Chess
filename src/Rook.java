@@ -1,4 +1,4 @@
-/**
+/*
  * Classe de la tour
  *
  * @author	Franck Naze

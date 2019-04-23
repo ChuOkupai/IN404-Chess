@@ -2,7 +2,7 @@
  * Classe représentant le plateau du jeu
  *
  * @author	Adrien Soursou
- * @version	06/04/2019
+ * @version	22/04/2019
  */
 
 import java.util.Stack;
@@ -11,6 +11,7 @@ public class ChessBoard
 {
 	private Piece[][] board;
 	private int[] kingX, kingY;
+	private boolean check, checkmate;
 	private Stack<Event> stack;
 	
 	// Couleurs pour le rendu
@@ -26,14 +27,16 @@ public class ChessBoard
 	 */
 	public	ChessBoard()
 	{
-		int x, y1, y2;
+		int x, y, y2;
 		
 		board = new Piece[8][8];
 		stack = new Stack<Event>();
-		for (x = 0, y1 = 1, y2 = 6; x < 8; x++)
+		kingX = new int[2];
+		kingY = new int[2];
+		for (x = 0, y = 1, y2 = 6; x < 8; x++)
 		{
 			board[y2][x] = new Pawn(0);
-			board[y1][x] = new Pawn(1);
+			board[y][x] = new Pawn(1);
 		}
 		// y = ligne, x = colonne
 		board[7][1] = new Knight(0);
@@ -52,10 +55,10 @@ public class ChessBoard
 		board[0][3] = new Queen(1);
 		board[7][4] = new King(0);
 		board[0][4] = new King(1);
-		int[] kingX = new int[2];
-		int[] kingY = new int[2];
 		kingY[0] = 7; kingX[0] = 4;
 		kingY[1] = 0; kingX[1] = 4;
+		check = false;
+		checkmate = false;
 	}
 	
 	/**
@@ -123,85 +126,65 @@ public class ChessBoard
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
 		
-		stack.push(new Event(x1,y1,x2,y2, board[y2][x2]));
+		stack.push(new Event(x1, y1, x2, y2, board[y2][x2], check));
 		board[y2][x2] = board[y1][x1];
 		board[y1][x1] = null;
-		
+		check = false;
 		if (board[y2][x2].getSprite().equals("♔"))
 		{
 			kingX[color] = x2;
 			kingY[color] = y2;
-			
-			if(isCheck(color))
+			int x, y;
+			for (y = 0; y < 8; y++)
+				for (x = 0; x < 8; x++)
+					if (board[y][x] != null && board[y][x].getColor() != color
+						 && board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
+						check = true;
+			if(check == true)
 			{
 				undo();
 				return false;
 			}
 		}
+		else if (board[y2][x2].movePossible(this, x2, y2, kingX[color], kingY[color]) == true)
+			check = true;
 		return true;
 	}
 	
 	/**
 	 * Vérifie les situations d'échecs
-	 * @param color la couleur du joueur
 	 * @return vrai si il y a une situation d'échec
 	 */
-	private boolean	isCheck(int color)
+	public boolean	isCheck()
 	{
-		int x, y = 0;
-		while (y < 8)
-		{
-			x = 0;
-			while (x < 8)
-				if (board[y][x] != null && board[y][x].getColor() != color)
-					if (board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
-						return true;
-		}
-		return false;
+		return check;
+		/*int x, y;
+		for (y = 0; y < 8; y++)
+			for (x = 0; x < 8; x++)
+				if (board[y][x] != null && board[y][x].getColor() != color
+					 && board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
+					return true;
+		return false;*/
 	}
 	
 	/**
 	 * Vérifie les situations d'échecs et mat
-	 * @param color la couleur du joueur
 	 * @return vrai si échec et mat
 	 */
-	public boolean	isCheckmate(int color)
+	public boolean	isCheckmate()
 	{
-		if (isCheck(color) == false)
-			return false;
-		int x = kingX[color] - 1, y = kingY[color] - 1, i = 0, j = 0;
-		
-		while (i < 3)
-		{
-			while (j < 3)
-			{
-				if (i != 2 && j != 2)
-					if (board[x][y].movePossible(this, x, y, x + i, y + j) == true)
-						return true;
-				j++;
-			}
-			i++;
-		}
-		i = 0;
-		while (i < 8)
-		{
-			j = 0;
-			while (j < 8)
-			{
-				if (board[y][x].getColor() == color)
-				{
-					if (doMove(color, kingX[color], kingY[color], i, j) == true)
-					{
-						undo();
-						return false;
-					}
-				}
+		return false;
+		/*int x = kingX[color], y = kingY[color], i, j;
+		for (i = -1; i < 2; i++)
+			for (j = -1; j < 2; j++)
+				if (i != 0 && j != 0 && isOnBoard(x + i, y + j) == true
+					 && board[y][x].movePossible(this, x, y, x + i, y + j) == true)
+					return false;
+		for (i = 0; i < 8; i++)
+			for (j = 0; j < 8; j++)
 				if (board[y][x].movePossible(this, kingX[color], kingY[color], x, y) == true)
-				j++;
-			}
-			i++;
-		}
-		return true;
+					return false;
+		return true;*/
 	}
 	
 	/**
@@ -243,7 +226,7 @@ public class ChessBoard
 	 **/
 	public void promote(Piece p, int x, int y)
 	{
-		stack.push(new Event(x, y, x, y, board[y][x]));
+		stack.push(new Event(x, y, x, y, board[y][x], check));
 		board[y][x] = p;
 	}
 	
@@ -252,28 +235,24 @@ public class ChessBoard
 	 **/
 	public void undo()
 	{
-		Event e;
-		if(stack.empty() == false)
+		if(stack.empty() == true)
+			return;
+		Event e = stack.pop();
+		int startx = e.getStartingx(); 
+		int starty = e.getStartingy();
+		int finalx = e.getFinalx();
+		int finaly = e.getFinaly();
+		board[starty][startx] = board[finaly][finalx];
+		board[finaly][finalx] = e.getEatenPiece();
+		check = e.getCheck();
+		
+		if(board[starty][startx].getSprite().equals("♔"))
 		{
-			e = stack.pop();
-			int startx = e.getStartingx(); 
-			int starty = e.getStartingy();
-			int finalx = e.getFinalx();
-			int finaly = e.getFinaly();
-			board[starty][startx] = board[finaly][finalx];
-			board[finaly][finalx] = e.getEatenPiece();
-			
-			if(board[starty][startx].getSprite().equals("♔"))
-			{
-				int color = board[starty][startx].getColor();
-				kingY[color] = starty;
-				kingX[color] = startx;
-			}
-			
-			else if(startx == finalx && starty == finaly)
-			{
-				undo();
-			}
+			int color = board[starty][startx].getColor();
+			kingY[color] = starty;
+			kingX[color] = startx;
 		}
+		else if(startx == finalx && starty == finaly)
+			undo(); // cas d'une promotion
 	}
 }
