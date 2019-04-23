@@ -55,6 +55,13 @@ La commande exécutée par défaut est:
 
 ## Manuel Technique
 ![diagramme de classe](Classes.png)
+### Architecture :
+3 groupes de classes peuvent être identifiés:
+ - Les **Classes principales** : La classe **Main** permet de lancer le programme, il interpréte egalement les commandes qu'on lui a fournit. La classe **Game** à l'aide de la classe **ChessBoard** gère le partie et le plateau dans son ensemble ainsi que que l'affichage, il assure l'interprétation des commandes de jeu également . La classe **Event** permet au **ChessBoard** de garder en mémoire les coup joué durant la partie. 
+ - Les **Pièces** : Chaque pièce hérite de la classe abstraite ***Piece***, contenant les données importantes tel que la couleur et les images de chaque pièce. Chaque pièce implémente la méthode abstraite *movePossible* afin qu'elle s'adapte aux différents qu'elle peut effectuer.
+ - Les **Joueurs** : La classe abstraite ***Player*** contient les fonctions abstraite *getCom* et *getPromotion* permettant respectivement de renvoyer leur choix de commande et de promotion. La classe **AI** et **Human**  les implémentent tous deux.  **AI** utilise fortement l'aléatoire tandis que **Human** récupère la commande de l'utilisateur via un BufferedReader.
+### Affichage :
+Le plateau et les pièces sont affichées directement sur le terminal en utilisant des caractères d'échappement. 2 caractères unicodes, appelés *sprite* sont nécessaires pour l'affichage de pièces sur case noir et sur case blanche.
+L'animation du timer nécessite une mise à jour de l'affichage toutes les 1secondes effectuée.
 ### Option :
-TO BE STARTED ...
-## Difficulté(?)
+Les Options sont collectées dans la classe **Main** et sert à l'instantiation de l'object Game
