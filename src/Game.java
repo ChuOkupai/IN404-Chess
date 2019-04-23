@@ -9,37 +9,41 @@ public class Game
 {
 	private ChessBoard chessb;
 	private int bank, color, turn, maxSeconds, maxTurns;
-	private boolean j1, j2, check, checkmate;
+	private	double delay;
+	private boolean p1, p2, check, checkmate;
 	private Player[] player;
 	private String mode;
 	
 	/**
 	 * Constructeur d'objets de classe Game
+	 * @param delay le délai max des IA <=0: aucun, 1: rapide, 2: normal >=3: lent
 	 * @param bank le nombre maximum de secondes par joueur, infini si <= 0
 	 * @param maxSeconds le nombre maximum de secondes par tour, infini si <= 0
 	 * @param maxTurns le nombre maximum de tours, infini si <= 0
-	 * @param j1 le joueur 1, true indique un joueur humain et false une IA
-	 * @param j2 le joueur 2
+	 * @param p1 le joueur 1, true indique un joueur humain et false une IA
+	 * @param p2 le joueur 2
 	 */
-	public Game(int bank, int maxSeconds, int maxTurns, boolean j1, boolean j2)
+	public Game(int delay, int bank, int maxSeconds, int maxTurns, boolean p1, boolean p2)
 	{
 		chessb = new ChessBoard();
-		player = new Player[2];
-		player[0] = (j2) ? new Human(this.bank, 0) : new AI(this.bank, 0);
-		player[1] = (j1) ? new Human(this.bank, 1) : new AI(this.bank, 1);
-		this.j1 = j1;
-		this.j2 = j2;
-		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
-		if (! (j1 || j2))
-		{
-			mode = "\033[38;2;84;194;221mAI battle\033[0m";
-			this.bank = 0;
-			this.maxSeconds = 0;
-			return;
-		}
+		if (delay <= 0)
+			this.delay = 0;
+		else if (delay == 1)
+			this.delay = 1.0;
+		else this.delay = (delay == 2) ? 0.5 : 0.2;
+		this.delay += Math.random() * this.delay;
 		this.bank = (bank < 0) ? 0 : bank;
 		this.maxSeconds = (maxSeconds < 0) ? 0 : maxSeconds;
-		mode = (bank > 0 || maxSeconds > 0) ? "Blitz" : "Normal";
+		this.maxTurns = (maxTurns < 0) ? 0 : maxTurns;
+		player = new Player[2];
+		player[0] = (p2) ? new Human(this.bank, 0) : new AI(this.bank, 0);
+		player[1] = (p1) ? new Human(this.bank, 1) : new AI(this.bank, 1);
+		this.p1 = p1;
+		this.p2 = p2;
+		if (! (p1 || p2))
+			mode = "\033[38;2;84;194;221mAI battle\033[0m";
+		else
+			mode = (bank > 0 || maxSeconds > 0) ? "Blitz" : "Normal";
 	}
 	
 	/**
@@ -164,12 +168,11 @@ public class Game
 	 **/
 	private void aiThinking()
 	{
-		long t0;
-		double dt, tmax;
-		t0 = System.currentTimeMillis();
-		dt = 0;
-		tmax = 0.2 + Math.random() * 0.2;
-		while (dt < tmax)
+		if (delay == 0)
+			return;
+		long t0 = System.currentTimeMillis();
+		double dt = 0;
+		while (dt < delay)
 			dt = (System.currentTimeMillis() - t0) / 1000.0;
 	}
 	
@@ -200,10 +203,10 @@ public class Game
 		
 		if (chessb.doMove(color,x1,y1,x2,y2) == true)
 		{
-			if (! (j1 || j2)) aiThinking(); // délai si 2 IAs jouent
+			if ((color == 1 && ! p1) || (color == 0 && ! p2)) aiThinking(); // délai
 			if (chessb.isPawn(x2, y2) == true && ((color == 0 && y2 == 0) || (color == 1 && y2 == 7)))
 			{
-				if (! (j1 || j2)) aiThinking(); // délai
+				if ((color == 1 && ! p1) || (color == 0 && ! p2)) aiThinking(); // délai
 				promote(x2, y2);
 			}
 			return 2;
@@ -235,7 +238,8 @@ public class Game
 				ret = printInfo("No more turns left!", null);
 			if (checkmate == true)
 			{
-				System.out.print("\033[3;27H\033[K" + ((color == 0) ? "Black" : "White") + "'s king can not escape check");
+				System.out.print("\033[3;27H\033[K\033[38;2;255;55;55m" + ((color == 0) ? "Black" : "White") + "'s king can not escape check\033[0m");
+				render(0);
 				ret = 1;
 			}
 			else if (check == true)
@@ -270,6 +274,6 @@ public class Game
 				color = 1 - color;
 			}
 		}
-		System.out.println("\033[15H");
+		System.out.print("\033[15H");
 	}
 }

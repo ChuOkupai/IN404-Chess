@@ -139,24 +139,6 @@ public class ChessBoard
 	}
 	
 	/**
-	 * Vérifie si le roi est bloqué
-	 * @param color la couleur du joueur
-	 * @return vrai si le roi ne peut pas bouger
-	 */
-	private boolean	isStalemated(int color)
-	{
-		int x = kingX[color], y = kingY[color], i, j;
-		for (i = -1; i < 2; i++)
-			for (j = -1; j < 2; j++)
-				if (doMove(color, x, y, x + i, y + j) == true)
-				{
-					if (! isCheck(color)) { undo(); return false; } // mouvement possible
-					undo();
-				}
-		return true; // roi bloqué
-	}
-	
-	/**
 	 * Vérifie les situations d'échecs
 	 * @param color la couleur du joueur
 	 * @return vrai si il y a une situation d'échec
@@ -195,7 +177,7 @@ public class ChessBoard
 						}
 			}
 		}
-		return isStalemated(color);
+		return true;
 	}
 	
 	/**
