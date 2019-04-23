@@ -68,13 +68,15 @@ public class Main
 		}
 		if (help == true)
 		{
-			System.out.println("Usage:\n\n      -d,    --delay  wait an amout of time after ai played (instant, slow, normal or fast)");
-			System.out.println("      -b,     --bank  set a time bank for each player (0 is infinite)");
-			System.out.println("      -s,  --seconds  set a time limit for each turn (0 is infinite)");
-			System.out.println("      -t,    --turns  set a limit of turns (0 is infinite)");
-			System.out.println("      -p1, --player1  choose if the player is controlled by an ai or not (ai or human)\n");
-			System.out.println("      -p2, --player2  same as player 1\n");
-			System.out.println("Default is: -d normal -b 0 -s 0 -t 0 -p1 human -p2 ai");
+			System.out.println("Usage: .\\chess [OPTION]...\nPlay chess on a Linux terminal!\n");
+			System.out.println("Mandatory arguments to long options are mandatory for short options too.");
+			System.out.println("    -d,    --delay  wait an amout of time after ai played (instant, slow, normal or fast)");
+			System.out.println("    -b,     --bank  set a time bank for each player (0 is infinite)");
+			System.out.println("    -s,  --seconds  set a time limit for each turn (0 is infinite)");
+			System.out.println("    -t,    --turns  set a limit of turns (0 is infinite)");
+			System.out.println("    -p1, --player1  choose if the player is controlled by an ai or not (ai or human)\n");
+			System.out.println("    -p2, --player2  same as player 1\n");
+			System.out.println("Default arguments are: -d normal -b 0 -s 0 -t 0 -p1 human -p2 ai");
 			return;
 		}
 		else if (err == true)
