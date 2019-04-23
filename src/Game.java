@@ -97,13 +97,16 @@ public class Game
 		{
 			if (turn == 1)
 			{
-				System.out.print("\033[6;28HMode: " + mode);
-				System.out.print("\n\033[32C's turn\n\033[27CTurn: ");
-				if (bank > 0)
-					System.out.print("\n\033[27CBank: ");
-				if (maxSeconds > 0)
-					System.out.print("\n\033[27CTime left: ");
-				System.out.print("\033[13H    > \033[s");
+				if (color == 1)
+				{
+					System.out.print("\033[6;28HMode: " + mode);
+					System.out.print("\n\033[32C's turn\n\033[27CTurn: ");
+					if (bank > 0)
+						System.out.print("\n\033[27CBank: ");
+					if (maxSeconds > 0)
+						System.out.print("\n\033[27CTime left: ");
+					System.out.print("\033[13H    > \033[s");
+				}
 				// Information pour le premier tour
 				printInfo("Input format: [a-h][1-8][a-h][1-8]", "ex: > ");
 			}
@@ -197,12 +200,11 @@ public class Game
 			dt = 0;
 			frame = 0;
 			ret = 0;
-			check = chessb.isCheck();
-			checkmate = chessb.isCheckmate();
+			check = chessb.isCheck(color);
+			checkmate = chessb.isCheckmate(color);
 			System.out.print("\033[s\033[1;1H"); // sauvegarde et déplace le curseur en haut de l'écran
 			chessb.render();
-			printInfo(null, null);
-			System.out.print("\033[u"); // restaure la position du curseur
+			if (turn > 1) printInfo(null, null);
 			if (maxTurns > 0 && turn > maxTurns)
 				ret = printInfo("No more turns left!", null);
 			else if (check == true)
@@ -213,8 +215,9 @@ public class Game
 					ret = 1;
 				}
 				else
-					printInfo("Check!", null);
+					printInfo("\033[38;2;255;55;55m⚠  CHECK\033[0m", "Your king is in danger!");
 			}
+			System.out.print("\033[u"); // restaure la position du curseur
 			while (ret < 1)
 			{
 				if (frame == dt) // si une nouvelle frame doit être rendue
@@ -236,8 +239,10 @@ public class Game
 					printInfo(((color == 0) ? "Black" : "White") + "'s have conceded!", null);
 				else if (ret == 3)
 				{
-					turn -= 2;
+					turn--;
 					color = 1 - color;
+					ret = 0;
+					render(0); // réinitialise le rendu
 				}
 				dt = (System.currentTimeMillis() - t0) / 1000;
 			}

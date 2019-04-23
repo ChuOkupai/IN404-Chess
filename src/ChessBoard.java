@@ -11,7 +11,6 @@ public class ChessBoard
 {
 	private Piece[][] board;
 	private int[] kingX, kingY;
-	private boolean check, checkmate;
 	private Stack<Event> stack;
 	
 	// Couleurs pour le rendu
@@ -57,8 +56,8 @@ public class ChessBoard
 		board[0][4] = new King(1);
 		kingY[0] = 7; kingX[0] = 4;
 		kingY[1] = 0; kingX[1] = 4;
-		check = false;
-		checkmate = false;
+		board[6][4] = null; // DEBUG
+		board[1][3] = null; // DEBUG
 	}
 	
 	/**
@@ -125,66 +124,74 @@ public class ChessBoard
 			return false;
 		else if (board[y1][x1].movePossible(this, x1, y1, x2, y2) == false)
 			return false;
-		
-		stack.push(new Event(x1, y1, x2, y2, board[y2][x2], check));
+		stack.push(new Event(x1, y1, x2, y2, board[y2][x2]));
 		board[y2][x2] = board[y1][x1];
 		board[y1][x1] = null;
-		check = false;
 		if (board[y2][x2].getSprite().equals("♔"))
 		{
 			kingX[color] = x2;
 			kingY[color] = y2;
-			int x, y;
-			for (y = 0; y < 8; y++)
-				for (x = 0; x < 8; x++)
-					if (board[y][x] != null && board[y][x].getColor() != color
-						 && board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
-						check = true;
-			if(check == true)
-			{
-				undo();
-				return false;
-			}
 		}
-		else if (board[y2][x2].movePossible(this, x2, y2, kingX[color], kingY[color]) == true)
-			check = true;
+		if (isCheck(color))
+		{
+			undo();
+			return false;
+		}
 		return true;
 	}
 	
 	/**
-	 * Vérifie les situations d'échecs
-	 * @return vrai si il y a une situation d'échec
+	 * Vérifie si le roi est bloqué
+	 * @param color la couleur du joueur
+	 * @return vrai si le roi ne peut pas bouger
 	 */
-	public boolean	isCheck()
+	private boolean	isStalemated(int color)
 	{
-		return check;
-		/*int x, y;
-		for (y = 0; y < 8; y++)
-			for (x = 0; x < 8; x++)
-				if (board[y][x] != null && board[y][x].getColor() != color
-					 && board[y][x].movePossible(this, x, y, kingX[color], kingY[color]) == true)
-					return true;
-		return false;*/
-	}
-	
-	/**
-	 * Vérifie les situations d'échecs et mat
-	 * @return vrai si échec et mat
-	 */
-	public boolean	isCheckmate()
-	{
-		return false;
-		/*int x = kingX[color], y = kingY[color], i, j;
+		int x = kingX[color], y = kingY[color], i, j;
 		for (i = -1; i < 2; i++)
 			for (j = -1; j < 2; j++)
 				if (i != 0 && j != 0 && isOnBoard(x + i, y + j) == true
 					 && board[y][x].movePossible(this, x, y, x + i, y + j) == true)
 					return false;
-		for (i = 0; i < 8; i++)
-			for (j = 0; j < 8; j++)
-				if (board[y][x].movePossible(this, kingX[color], kingY[color], x, y) == true)
-					return false;
-		return true;*/
+		return true; // roi bloqué
+	}
+	
+	/**
+	 * Vérifie les situations d'échecs
+	 * @param color la couleur du joueur
+	 * @return vrai si il y a une situation d'échec
+	 */
+	public boolean	isCheck(int color)
+	{
+		int x, y;
+		for (y = 0; y < 8; y++)
+			for (x = 0; x < 8; x++)
+				if (board[y][x] != null && board[y][x].getColor() != color
+					 && board[y][x].movePossible(this, x, y, kingX[color], kingY[color]))
+					return true;
+		return false;
+	}
+	
+	/**
+	 * Vérifie les situations d'échecs et mat
+	 * @param color la couleur du joueur
+	 * @return vrai si échec et mat
+	 */
+	public boolean	isCheckmate(int color)
+	{
+		if (! isCheck(color) || isStalemated(color))
+			return false;
+		int x, y, i, j;
+		for (y = 0; y < 8; y++)
+			for (x = 0; x < 8; x++)
+				for (i = 0; i < 8; j++)
+					for (j = 0; j < 8; j++)
+						if (doMove(color, i, j, x, y))
+						{
+							if (! isCheck(color)) { undo(); return false; } // mouvement possible
+							undo();
+						}
+		return true;
 	}
 	
 	/**
@@ -226,7 +233,7 @@ public class ChessBoard
 	 **/
 	public void promote(Piece p, int x, int y)
 	{
-		stack.push(new Event(x, y, x, y, board[y][x], check));
+		stack.push(new Event(x, y, x, y, board[y][x]));
 		board[y][x] = p;
 	}
 	
@@ -244,7 +251,6 @@ public class ChessBoard
 		int finaly = e.getFinaly();
 		board[starty][startx] = board[finaly][finalx];
 		board[finaly][finalx] = e.getEatenPiece();
-		check = e.getCheck();
 		
 		if(board[starty][startx].getSprite().equals("♔"))
 		{
