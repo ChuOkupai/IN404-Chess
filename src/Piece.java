@@ -12,7 +12,10 @@ public abstract class Piece
 	private String spriteFill;
 	
 	/**
-	 * Constructeur de la classe abstraite piece
+	 * Constructeur de la classe abstraite pièce
+	 * @param color la couleur de la pièce
+	 * @param sprite la valeur unicode de la pièce
+	 * @param spriteFill la version pleine de la valeur unicode de la pièce
 	 */
 	public Piece(int color, String sprite, String spriteFill)
 	{

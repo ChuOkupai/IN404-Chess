@@ -9,6 +9,7 @@ public class Knight extends Piece
 {
 	/**
 	 * Constructeur du cavalier
+	 * @param color la couleur de la pièce
 	 */
 	public Knight(int color)
 	{

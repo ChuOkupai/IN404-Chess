@@ -9,6 +9,7 @@ public class Pawn extends Piece
 {
 	/**
 	 * Constructeur du pion
+	 * @param color la couleur de la pièce
 	 */
 	public Pawn(int color)
 	{

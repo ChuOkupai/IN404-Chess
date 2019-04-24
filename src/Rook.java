@@ -8,7 +8,7 @@
 public class Rook extends Piece
 {
 	/**
-	 * Constructeur de la tour
+	 * Constructeur du roi
 	 * @param color la couleur de la pièce
 	 */
 	public	Rook(int color)

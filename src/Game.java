@@ -16,10 +16,10 @@ public class Game
 	
 	/**
 	 * Constructeur d'objets de classe Game
-	 * @param delay le délai max des IA <=0: aucun, 1: rapide, 2: normal >=3: lent
-	 * @param bank le nombre maximum de secondes par joueur, infini si <= 0
-	 * @param maxSeconds le nombre maximum de secondes par tour, infini si <= 0
-	 * @param maxTurns le nombre maximum de tours, infini si <= 0
+	 * @param delay le délai max des IA inférieur ou égal 0: aucun, 1: rapide, 2: normal supérieur ou égal à 3: lent
+	 * @param bank le nombre maximum de secondes par joueur, infini si inférieur ou égal 0
+	 * @param maxSeconds le nombre maximum de secondes par tour, infini si inférieur ou égal 0
+	 * @param maxTurns le nombre maximum de tours, infini si inférieur ou égal 0
 	 * @param p1 le joueur 1, true indique un joueur humain et false une IA
 	 * @param p2 le joueur 2
 	 */
@@ -238,12 +238,12 @@ public class Game
 				ret = printInfo("No more turns left!", null);
 			if (checkmate == true)
 			{
-				System.out.print("\033[3;27H\033[K\033[38;2;255;55;55m" + ((color == 0) ? "Black" : "White") + "'s king can not escape check\033[0m");
-				render(0);
+				printInfo("\033[38;2;255;55;55m\033[5m⚠\033[25m CHECKMATE", "The king cannot escape check!\033[0m");
+				render(0); // mise à jour de l'affichage 
 				ret = 1;
 			}
 			else if (check == true)
-				printInfo("\033[38;2;255;55;55m⚠  CHECK\033[0m", "Your king is in danger!");
+				printInfo("\033[38;2;255;55;55m\033[5m⚠\033[25m CHECK\033[0m", "Your king is in danger!");
 			System.out.print("\033[u"); // restaure la position du curseur
 			while (ret < 1)
 			{

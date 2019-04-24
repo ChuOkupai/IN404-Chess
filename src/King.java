@@ -9,6 +9,7 @@ public class King extends Piece
 {
 	/**
 	 * Constructeur du roi
+	 * @param color la couleur de la pièce
 	 */
 	public King(int color)
 	{

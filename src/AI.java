@@ -7,11 +7,22 @@
 
 public class AI extends Player
 {
+	/**
+	 * Constructeur de l'IA
+	 * @param bank la valeur de la banque du joueur
+	 * @param color la couleur du joueur
+	 */
 	public AI(int bank, int color)
 	{
 		super(bank, color);
 	}
 	
+	/**
+	 * Cette méthode retourne la commande tapée par le joueur
+	 * Si c'est un humain, renvoie l'entrée utilisateur
+	 * Si c'est une IA, renvoie une entrée aléatoire
+	 * @return la commande du joueur
+	 */
 	public String getCom()
 	{
 		char x1, x2, y1, y2;
@@ -22,6 +33,10 @@ public class AI extends Player
 		return "" + x1 + y1 + x2 + y2;
 	}
 	
+	/**
+	 * S'occupe de la promotion d'un pion
+	 * @return la chaîne de la nouvelle pièce
+	 */
 	public String getPromotion()
 	{
 		int n = (int)(Math.random() * 4);

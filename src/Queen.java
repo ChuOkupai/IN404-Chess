@@ -8,6 +8,7 @@ public class Queen extends Piece
 {
 	/**
 	 * Constructeur de la reine
+	 * @param color la couleur de la pièce
 	 */
 	public Queen (int color)
 	{
