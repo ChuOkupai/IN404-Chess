@@ -9,8 +9,7 @@ public class Main
 {
 	/**
 	 * Méthode principale du programme.
-	 * Attention: il est impossible de faire jouer 2 IAs en même temps
-	 * Les arguments 
+	 * Exécuter le programme avec l'option --help pour afficher l'aide.
 	 * @param args les arguments de ligne de commande
 	 */
 	public static void main(String[] args)
