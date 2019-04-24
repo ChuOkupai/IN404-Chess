@@ -216,6 +216,9 @@ public class ChessBoard
 	
 	/**
 	 * Gère la promotion d'une pièce
+	 * @param p la pièce à promouvoir
+	 * @param x la coordonnée horizontale de la pièce
+	 * @param y la coordonnée verticale de la pièce
 	 **/
 	public void promote(Piece p, int x, int y)
 	{
