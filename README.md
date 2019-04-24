@@ -46,7 +46,11 @@ La commande exécutée par défaut est:
 ```shell
 ./chess -d normal -b 0 -s 0 -t 0 -p1 human -p2 ai
 ```
-*Remarque: Eviter de lancer des batailles d'IAs sans limiter le nombre de tours.*
+Remarques:
+
+*- Eviter de lancer des batailles d'IAs sans limiter le nombre de tours.*
+
+*- Certaines polices d'écriture décalent l'affichage des pièces sur le terminal.*
 
 ### Commandes :
 - **undo** : reviens au coup précédent
